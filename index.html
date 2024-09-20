@@ -1,0 +1,221 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://api.fontshare.com/v2/css?f[]=satoshi@700,500,300&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/c416e79406.js" crossorigin="anonymous"></script>
+    <style>
+        .body {
+            overflow-y: hidden;
+        }
+    </style>
+     <Script>
+        // Check if user is on a laptop
+    function isLaptop() {
+      const userAgent = navigator.userAgent.toLowerCase();
+      const laptopKeywords = ["macintosh", "windows"];
+    
+      for (const keyword of laptopKeywords) {
+        if (userAgent.includes(keyword)) {
+          return true;
+        }
+      }
+    
+      return false;
+    }
+    
+    // Redirect if user is on a laptop
+    if (isLaptop()) {
+      window.location.href = "laptop.html";
+    }
+        </script>
+</head>
+
+<body class="bg-[#FCFBF4]" style="font-family: 'Satoshi', sans-serif;">
+    <div class="h-16">
+        <header class="bg-white dark:bg-gray-900 ">
+            <nav class="absolute z-10 w-full mb-10">
+                <div class="container mx-auto px-8 md:px-12 lg:px-6">
+                    <div class="relative flex flex-wrap items-center justify-between gap-6 py-2 md:gap-0 md:py-4">
+                        <input aria-hidden="true" type="checkbox" name="toggle_nav" id="toggle_nav"
+                            class="peer hidden" />
+                        <div class="relative z-20 flex w-full justify-between md:px-0 lg:w-max">
+                            <a href="#" aria-label="logo" class="flex items-center space-x-2">
+
+                                <span class="text-2xl font-bold text-gray-900 dark:text-white">DashMate</span>
+                            </a>
+                            <div class="relative flex max-h-10 items-center lg:hidden">
+                                <label role="button" for="toggle_nav" aria-label="humburger" id="hamburger"
+                                    class="relative -mr-6 p-6">
+                                    <div aria-hidden="true" id="line"
+                                        class="m-auto h-0.5 w-5 rounded bg-sky-900 transition duration-300 dark:bg-gray-300">
+                                    </div>
+                                    <div aria-hidden="true" id="line2"
+                                        class="m-auto mt-2 h-0.5 w-5 rounded bg-sky-900 transition duration-300 dark:bg-gray-300">
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                        <label aria-hidden="true" for="toggle_nav"
+                            class="fixed inset-0 z-10 h-screen w-screen origin-bottom scale-y-0 bg-white/70 backdrop-blur-2xl transition duration-500 peer-checked:origin-top peer-checked:scale-y-100 dark:bg-gray-900/70 lg:hidden"></label>
+                        <div
+                            class="invisible absolute top-full left-0 z-20 w-full origin-top translate-y-1 scale-95 flex-col flex-wrap justify-end gap-6 rounded-3xl border border-gray-100 bg-white p-8 opacity-0 shadow-2xl shadow-gray-600/10 transition-all duration-300 peer-checked:visible peer-checked:scale-100 peer-checked:opacity-100 dark:border-gray-700 dark:bg-gray-800 dark:shadow-none lg:visible lg:relative lg:flex lg:w-7/12 lg:translate-y-0 lg:scale-100 lg:flex-row lg:items-center lg:gap-0 lg:border-none lg:bg-transparent lg:p-0 lg:opacity-100 lg:shadow-none lg:peer-checked:translate-y-0">
+                            <div class="w-full text-gray-600 dark:text-gray-300 lg:w-auto lg:pr-4 lg:pt-0">
+
+                            </div>
+
+                            <h2 class="text-2xl font-bold mb-4 text-center">Enroll Yourself</h2>
+                            <div class="mt-12 lg:mt-0 flex space-x-1 justify-center">
+                                <a href="register.html"
+                                    class="relative flex h-9 w-full items-center justify-center px-4 before:absolute before:inset-0 before:rounded-full before:bg-primary before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 sm:w-max">
+                                    <span
+                                        class="relative text-sm font-semibold text-black bg-[#BFD7B5] rounded-full px-10 py-2 ">Register</span>
+                                </a>
+                                <a href="register.html"
+                                    class="relative flex h-9 w-full items-center justify-center px-4 before:absolute before:inset-0 before:rounded-full before:bg-primary before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 sm:w-max">
+                                    <span
+                                        class="relative text-sm font-semibold text-black bg-[#BFD7B5] rounded-full px-10 py-2 ">Log In</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+    </div>
+    <div class="h-[60vh] w-screen p-10">
+        <div class="w-full h-full bg-[#E7EFC5] rounded-[2vw] relative overflow-hidden">
+            <div class="absolute inset-0 flex flex-col items-center justify-center">
+                <h1 class="text-4xl text-center mb-4">Order From<br><b>DashMate</b></h1>
+                <div class="grid grid-rows-2 gap-4 mb-10">
+                    <input type="text" placeholder="Search..." class="p-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-[#BFD7B5] text-[#6B8E23]">
+                    <button class="px-5 py-1 bg-[#BFD7B5] text-[#6B8E23] rounded-full hover:bg-[#E7EFC5]">Search cafes</button>
+                </div>
+            </div>
+            <script>
+                const placeholders = ["Search cafes", "Search restaurants", "Search shops", "Search stores"];
+                let index = 0;
+                setInterval(() => {
+                    index = (index + 1) % placeholders.length;
+                    document.querySelector('input[type="text"]').placeholder = placeholders[index];
+                }, 3000);
+            </script>
+            <img src="hero.png" class="absolute bottom-0 right-0">
+        </div>
+    </div>
+<section>
+<div class="px-10 py-10">
+    <h2 class="text-3xl font-semibold text-center mb-5 text-[#6B8E23]">Order by category</h2>
+    <div class="flex overflow-x-auto custom-scrollbar">
+        <div class="flex space-x-4">
+            <div class="min-w-[10rem] flex flex-col items-center justify-center p-4 bg-[#E7EFC5] rounded-lg hover:bg-[#BFD7B5] transition duration-300">
+                <i class="fas fa-pizza-slice text-4xl text-[#6B8E23]"></i>
+                <span class="text-[#6B8E23]">Pizza</span>
+            </div>
+            <div class="min-w-[10rem] flex flex-col items-center justify-center p-4 bg-[#E7EFC5] rounded-lg hover:bg-[#BFD7B5] transition duration-300">
+                <i class="fas fa-hamburger text-4xl text-[#6B8E23]"></i>
+                <span class="text-[#6B8E23]">Burger</span>
+            </div>
+            <div class="min-w-[10rem] flex flex-col items-center justify-center p-4 bg-[#E7EFC5] rounded-lg hover:bg-[#BFD7B5] transition duration-300">
+                <i class="fas fa-bread-slice text-4xl text-[#6B8E23]"></i>
+                <span class="text-[#6B8E23]">Essentials</span>
+            </div>
+            <div class="min-w-[10rem] flex flex-col items-center justify-center p-4 bg-[#E7EFC5] rounded-lg hover:bg-[#BFD7B5] transition duration-300">
+                <i class="fas fa-pen text-4xl text-[#6B8E23]"></i>
+                <span class="text-[#6B8E23]">Pens</span>
+            </div>
+            <div class="min-w-[10rem] flex flex-col items-center justify-center p-4 bg-[#E7EFC5] rounded-lg hover:bg-[#BFD7B5] transition duration-300">
+                <i class="fas fa-pencil-alt text-4xl text-[#6B8E23]"></i>
+                <span class="text-[#6B8E23]">Pencils</span>
+            </div>
+            <div class="min-w-[10rem] flex flex-col items-center justify-center p-4 bg-[#E7EFC5] rounded-lg hover:bg-[#BFD7B5] transition duration-300">
+                <i class="fas fa-book text-4xl text-[#6B8E23]"></i>
+                <span class="text-[#6B8E23]">Notebooks</span>
+            </div>
+            <div class="min-w-[10rem] flex flex-col items-center justify-center p-4 bg-[#E7EFC5] rounded-lg hover:bg-[#BFD7B5] transition duration-300">
+                <i class="fas fa-birthday-cake text-4xl text-[#6B8E23]"></i>
+                <span class="text-[#6B8E23]">Cakes</span>
+            </div>
+            <div class="min-w-[10rem] flex flex-col items-center justify-center p-4 bg-[#E7EFC5] rounded-lg hover:bg-[#BFD7B5] transition duration-300">
+                <i class="fas fa-cookie text-4xl text-[#6B8E23]"></i>
+                <span class="text-[#6B8E23]">Cookies</span>
+            </div>
+        </div>
+    </div>
+    <div class="h-4"></div>
+</div>
+<style>
+    .custom-scrollbar {
+        scrollbar-width: thin;
+        scrollbar-color: #6B8E23 #E7EFC5;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background-color: #6B8E23;
+        border-radius: 10px;
+        box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+        background-color: #E7EFC5;
+    }
+</style>
+</section>
+    <section>
+    <section class="px-20 py-5">
+        <h2 class="text-3xl font-semibold text-center mb-5 text-[#6B8E23]">Popular Restaurants</h2>
+        <div class="flex flex-wrap gap-10">
+            <div class="bg-[#E7EFC5] rounded-lg shadow-md overflow-hidden hover-effect">
+                <div class="px-5 py-5"> 
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSblohA7V8ibdLJFoVSLAA3wm6zGUXQtNLldw&s" alt="Restaurant 1" class="rounded-lg w-full h-48 object-cover">
+                </div>
+                <div class="p-5">
+                    <h3 class="text-xl font-semibold mb-2 text-[#6B8E23]">Darling Canteen</h3>
+                    <p class="text-[#6B8E23] mb-2">Timings: 10:00 AM - 10:00 PM</p>
+                    <p class="text-[#6B8E23]">Near Technology Tower</p>
+                </div>
+            </div>
+            <div class="bg-[#E7EFC5] rounded-lg shadow-md overflow-hidden hover-effect">
+                <div class="px-5 py-5"> 
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPOf7Kgkf8j8pwmuROcLuLRIaSWg-iDw1K4w&s" alt="Restaurant 2" class="rounded-lg w-full h-48 object-cover">
+                </div>
+                <div class="p-5">
+                    <h3 class="text-xl font-semibold mb-2 text-[#6B8E23]">Madras Coffee House</h3>
+                    <p class="text-[#6B8E23] mb-2">Timings: 9:00 AM - 11:00 PM</p>
+                    <p class="text-[#6B8E23]">Near Gate 3</p>
+                </div>
+            </div>
+            <div class="bg-[#E7EFC5] rounded-lg shadow-md overflow-hidden hover-effect">
+                <div class="px-5 py-5"> 
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTcL7yyVqZG0IiG8KR9gnA6yFjYgLSGiWTWrw&s" alt="Restaurant 3" class="rounded-lg w-full h-48 object-cover">
+                </div>
+                <div class="p-5">
+                    <h3 class="text-xl font-semibold mb-2 text-[#6B8E23]">KC Foods</h3>
+                    <p class="text-[#6B8E23] mb-2">Timings: 8:00 AM - 9:00 PM</p>
+                    <p class="text-[#6B8E23]">Beside SJT</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    </section>
+    <footer class="bg-[#E7EFC5] py-5 mt-10">
+        <div class="text-center text-[#6B8E23]">
+            Made with <span class="text-red-500">&hearts;</span> for VIT at DevJams'24
+        </div>
+    </footer>
+
+
+
+
+
+
+</body>
+
+
+</html>
