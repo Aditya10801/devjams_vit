@@ -83,9 +83,7 @@ def login():
         user = User.query.filter_by(username=username).first()
         if user and check_password_hash(user.password_hash, password):
             login_user(user)
-            flash('Logged in successfully!', 'success')
             return redirect(url_for('listing'))
-        flash('Invalid username or password', 'error')
     return render_template('login.html')
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -98,14 +96,12 @@ def register():
         hostel_block = request.form['hostel_block']
         
         if password != confirm_password:
-            flash('Passwords do not match', 'error')
             return redirect(url_for('register'))
         
         user = User(username=username, password_hash=generate_password_hash(password), 
                     room_no=room_no, hostel_block=hostel_block)
         db.session.add(user)
         db.session.commit()
-        flash('Registration successful!', 'success')
         
         return redirect(url_for('listing'))
     return render_template('register.html')
@@ -128,9 +124,6 @@ def edit_reward_points():
     if new_points is not None:
         current_user.reward_points = new_points
         db.session.commit()
-        flash('Reward points updated successfully!', 'success')
-    else:
-        flash('Invalid reward points value', 'error')
     return redirect(url_for('profile'))
 
 @app.route('/create_shop', methods=['GET', 'POST'])
@@ -152,7 +145,6 @@ def create_shop():
                 db.session.add(item)
         
         db.session.commit()
-        flash('Shop created successfully!', 'success')
         return redirect(url_for('admin'))
     return render_template('create_shop.html')
 
@@ -173,9 +165,6 @@ def place_order(item_id):
                       delivery_address=delivery_address)
         db.session.add(order)
         db.session.commit()
-        flash('Order placed successfully! 1 reward point used for delivery.', 'success')
-    else:
-        flash('Not enough reward points for delivery. You need at least 1 reward point.', 'warning')
     return redirect(url_for('shop_details', shop_id=item.shop_id))
 
 @app.route('/manage_orders')
@@ -193,30 +182,30 @@ def manage_orders():
 @login_required
 def accept_delivery(order_id):
     order = Order.query.get_or_404(order_id)
-    if order.user_id == current_user.id:
-        flash('You are not allowed to accept this delivery.', 'error')
-    elif order.status != 'pending' or order.delivery_user_id is not None:
-        flash('This order is no longer available for delivery.', 'error')
-    elif Order.query.filter_by(delivery_user_id=current_user.id, status='in_progress').first():
-        flash('You can only accept one order at a time.', 'error')
-    else:
+    # if order.user_id == current_user.id:
+    #     flash('You are not allowed to accept this delivery.', 'error')
+    # elif order.status != 'pending' or order.delivery_user_id is not None:
+    #     flash('This order is no longer available for delivery.', 'error')
+    # elif Order.query.filter_by(delivery_user_id=current_user.id, status='in_progress').first():
+    #     flash('You can only accept one order at a time.', 'error')
+    if (order.user_id != current_user.id) and not (order.status != 'pending' or order.delivery_user_id is not None) and not rder.query.filter_by(delivery_user_id=current_user.id, status='in_progress').first():
         order.delivery_user_id = current_user.id
         order.status = 'in_progress'
         db.session.commit()
-        flash('Delivery accepted!', 'success')
+        # flash('Delivery accepted!', 'success')
     return redirect(url_for('manage_orders'))
 
 @app.route('/complete_delivery/<int:order_id>', methods=['POST'])
 @login_required
 def complete_delivery(order_id):
     order = Order.query.get_or_404(order_id)
-    if order.delivery_user_id != current_user.id:
-        flash('You are not authorized to complete this delivery.', 'error')
-    else:
+    # if order.delivery_user_id != current_user.id:
+    #     flash('You are not authorized to complete this delivery.', 'error')
+    if order.delivery_user_id == current_user.id:
         order.status = 'completed'
         current_user.reward_points += 1  # Award 1 reward point to the delivery user
         db.session.commit()
-        flash('Delivery completed! You earned 1 reward point.', 'success')
+        # flash('Delivery completed! You earned 1 reward point.', 'success')
     return redirect(url_for('manage_orders'))
 
 @app.route('/shop/<int:shop_id>/add_product', methods=['GET', 'POST'])
@@ -224,7 +213,7 @@ def complete_delivery(order_id):
 def add_product(shop_id):
     shop = Shop.query.get_or_404(shop_id)
     if shop.user_id != current_user.id:
-        flash('You do not have permission to add products to this shop.', 'error')
+        # flash('You do not have permission to add products to this shop.', 'error')
         return redirect(url_for('index'))
 
     if request.method == 'POST':
@@ -233,7 +222,7 @@ def add_product(shop_id):
         item = Item(name=name, price=float(price), shop_id=shop.id)
         db.session.add(item)
         db.session.commit()
-        flash('Product added successfully!', 'success')
+        # flash('Product added successfully!', 'success')
         return redirect(url_for('shop_details', shop_id=shop.id))
     
     return render_template('add_product.html', shop=shop)
@@ -270,7 +259,7 @@ def add_to_cart(item_id):
     user_cart = CartItem.query.filter_by(user_id=current_user.id).first()
     
     if user_cart and user_cart.shop_id != item.shop_id:
-        flash('You can only add items from one shop to your cart. Please clear your cart first.', 'warning')
+        # flash('You can only add items from one shop to your cart. Please clear your cart first.', 'warning')
         return redirect(url_for('shop_details', shop_id=item.shop_id))
     
     cart_item = CartItem.query.filter_by(user_id=current_user.id, item_id=item_id).first()
@@ -282,7 +271,6 @@ def add_to_cart(item_id):
         db.session.add(cart_item)
     
     db.session.commit()
-    flash('Item added to cart successfully!', 'success')
     return redirect(url_for('shop_details', shop_id=item.shop_id))
 
 @app.route('/cart')
@@ -300,7 +288,6 @@ def remove_from_cart(item_id):
     if cart_item:
         db.session.delete(cart_item)
         db.session.commit()
-        flash('Item removed from cart successfully!', 'success')
     return redirect(url_for('cart'))
 
 @app.route('/process_payment', methods=['POST'])
