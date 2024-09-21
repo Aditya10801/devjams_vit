@@ -91,6 +91,7 @@
                 orderNowBtn.classList.remove('bg-[#D6DDF7]');
                 deliverNowBtn.classList.remove('bg-[#FCDC4D]');
                 deliverNowBtn.classList.add('bg-[#D6DDF7]');
+                deliverNowBtn.classList.add('z-[99]');
             } else {
                 deliverNowSection.classList.remove('hidden');
                 orderNowSection.classList.add('hidden');
@@ -98,6 +99,8 @@
                 deliverNowBtn.classList.remove('bg-[#D6DDF7]');
                 orderNowBtn.classList.remove('bg-[#FCDC4D]');
                 orderNowBtn.classList.add('bg-[#D6DDF7]');
+                deliverNowBtn.classList.remove('z-[99]');
+
             }
         }
         orderNowBtn.addEventListener('click', () => toggleOrderSections(true));

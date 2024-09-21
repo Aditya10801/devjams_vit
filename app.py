@@ -24,6 +24,7 @@ class User(UserMixin, db.Model):
     reward_points = db.Column(db.Integer, default=10)
     room_no = db.Column(db.String(20))
     hostel_block = db.Column(db.String(20))
+    # is_admin = db.Column(db.Boolean, default=False)
 
 class Shop(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -84,7 +85,16 @@ def login():
         if user and check_password_hash(user.password_hash, password):
             login_user(user)
             return redirect(url_for('listing'))
+        
+        if user and check_password_hash(user.password_hash, password) and user.is_admin:
+            return redirect(url_for("admin"))
+        
     return render_template('login.html')
+
+@app.route('/admin')
+@login_required
+def admin():
+    return render_template('admin.html')
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():

@@ -49,12 +49,12 @@
                             </button>
                         </div>
                         <div id="quantity-controls-{{ item.id }}" style="display: none;" class="rounded-full bg-[#EBEBEB]">
-                            <button type="button" onclick="decreaseQuantity('{{ item.id }}')"
+                            <button type="button" onclick="decreaseQuantity('{{ item.id }}', '{{ url_for('add_to_cart', item_id=item.id) }}')"
                                 class="bg-[#FCDC4D] hover:opacity-90 mr-2 text-black font-bold py-2 px-5 rounded-full focus:outline-none focus:shadow-outline">
                                 -
                             </button>
                             <span id="quantity-{{ item.id }}">1</span>
-                            <button type="button" onclick="increaseQuantity('{{ item.id }}')"
+                            <button type="button" onclick="increaseQuantity('{{ item.id }}', '{{ url_for('add_to_cart', item_id=item.id) }}')"
                                 class="bg-[#FCDC4D] hover:opacity-90 ml-2 text-black font-bold py-2 px-5 rounded-full focus:outline-none focus:shadow-outline">
                                 +
                             </button>
@@ -69,19 +69,45 @@
                                     .catch((error) => console.error('Error:', error));
                             }
 
-                            function increaseQuantity(itemId) {
-                                const currentQuantity = parseInt(document.querySelector('#quantity-' + itemId).textContent);
-                                document.querySelector('#quantity-' + itemId).textContent = currentQuantity + 1;
-                                // You may want to add code here to update the quantity in the cart
+                            function updateQuantity(itemId, url, newQuantity) {
+                                fetch(url, {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                    body: JSON.stringify({ quantity: newQuantity })
+                                })
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.success) {
+                                        document.querySelector('#quantity-' + itemId).textContent = newQuantity;
+                                    } else {
+                                        console.error('Failed to update quantity');
+                                    }
+                                })
+                                .catch((error) => console.error('Error:', error));
                             }
 
-                            function decreaseQuantity(itemId) {
-                                const currentQuantity = parseInt(document.querySelector('#quantity-' + itemId).textContent);
+
+                            function increaseQuantity(itemId, url) {
+                                const quantityElement = document.querySelector('#quantity-' + itemId);
+                                const currentQuantity = parseInt(quantityElement.textContent);
+                                const newQuantity = currentQuantity + 1;
+                                quantityElement.innerHTML = newQuantity;
+                                updateQuantity(itemId, url, newQuantity);
+                            }
+
+                            function decreaseQuantity(itemId, url) {
+                                const quantityElement = document.querySelector('#quantity-' + itemId);
+                                const currentQuantity = parseInt(quantityElement.textContent);
                                 if (currentQuantity > 1) {
-                                    document.querySelector('#quantity-' + itemId).textContent = currentQuantity - 1;
-                                    // You may want to add code here to update the quantity in the cart
+                                    const newQuantity = currentQuantity - 1;
+                                    quantityElement.innerHTML = newQuantity;
+                                    updateQuantity(itemId, url, newQuantity);
                                 }
                             }
+
+                            
                         </script>
                     </form>
                 </div>
