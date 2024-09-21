@@ -3,40 +3,45 @@
 {% block title %}Create Shop{% endblock %}
 
 {% block content %}
-<h1>Create New Shop</h1>
+<div class="text-center">
+    <h1 class="text-3xl font-extrabold text-[#3457D5]" style="font-family: 'Poppins', sans-serif;">Create New Shop</h1>
+</div>
 <form method="POST">
-    <div class="mb-3">
-        <label for="name" class="form-label">Shop Name</label>
-        <input type="text" class="form-control" id="name" name="name" required>
+    <div class="mb-3 p-4 rounded-lg ">
+        <h3 class="text-lg font-bold mb-2 text-[#3457D5]">Shop Name</h3>
+        <input type="text" class="shadow appearance-none border rounded-[10px] w-full py-2 px-3 text-gray-700 bg-[#F5F5F5] leading-tight focus:outline-none focus:shadow-outline" id="name" name="name" required>
     </div>
-    <div class="mb-3">
-        <label for="shop_type" class="form-label">Shop Type</label>
-        <select class="form-select" id="shop_type" name="shop_type" required>
+    <div class="mb-3 p-4 rounded-lg ">
+        <h3 class="text-lg font-bold mb-2 text-[#3457D5]">Shop Type</h3>
+        <select class=" appearance-none  rounded-[10px] w-full py-2 px-3 text-gray-700 bg-[#F5F5F5] leading-tight focus:outline-none focus:shadow-outline" id="shop_type" name="shop_type" required>
             <option value="">Select shop type</option>
             <option value="food">Food</option>
             <option value="stationary">Stationary</option>
         </select>
     </div>
-    <h3>Initial Products</h3>
+    <h4 class="text-center text-lg font-bold mb-2 text-[#3457D5]">Add Products</h4>
     <div id="products">
-        <div class="product-entry mb-3">
-            <input type="text" class="form-control mb-2" name="product_names[]" placeholder="Product Name" required>
-            <input type="number" class="form-control mb-2" name="product_prices[]" placeholder="Price" step="0.01" required>
+        <div class="product-entry mb-3 flex gap-2 justify-between">
+            <input type="text" class="form-control mb-2 bg-[#F5F5F5] p-4 rounded-[10px] w-1/2 ml-5" name="product_names[]" placeholder="Product Name" required style="font-size: 1.2rem;">
+            <input type="number" class="form-control mb-2 bg-[#F5F5F5] p-4 rounded-[10px] w-1/2 mr-5" name="product_prices[]" placeholder="Price" step="0.01" required style="font-size: 1.2rem;">
         </div>
     </div>
-    <button type="button" class="btn btn-secondary mb-3" onclick="addProductField()">Add Another Product</button>
-    <br>
-    <button type="submit" class="btn btn-primary">Create Shop</button>
+    <div class="text-center">
+        <button type="button" class="bg-[#FCDC4D] hover:opacity-90 text-[#3457D5] mt-10 py-2 px-4 rounded-full focus:outline-none focus:shadow-outline mb-3" onclick="addProductField()">Add Another Product</button>
+    </div>
+    <div class="w-full mt-4">
+        <button type="submit" class="absolute bottom-0 h-20 btn btn-primary w-full bg-[#FCDC4D] text-[#3457D5] text-3xl">Create Shop</button>
+    </div>
 </form>
 
 <script>
 function addProductField() {
     const productsDiv = document.getElementById('products');
     const newProductEntry = document.createElement('div');
-    newProductEntry.className = 'product-entry mb-3';
+    newProductEntry.className = 'product-entry mb-3 flex gap-2 justify-between';
     newProductEntry.innerHTML = `
-        <input type="text" class="form-control mb-2" name="product_names[]" placeholder="Product Name" required>
-        <input type="number" class="form-control mb-2" name="product_prices[]" placeholder="Price" step="0.01" required>
+        <input type="text" class="form-control mb-2 bg-[#F5F5F5] p-4 rounded-[10px] w-1/2 ml-5" name="product_names[]" placeholder="Product Name" required style="font-size: 1.2rem;">
+        <input type="number" class="form-control mb-2 bg-[#F5F5F5] p-4 rounded-[10px] w-1/2 mr-5" name="product_prices[]" placeholder="Price" step="0.01" required style="font-size: 1.2rem;">
     `;
     productsDiv.appendChild(newProductEntry);
 }
