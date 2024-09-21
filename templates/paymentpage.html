@@ -84,17 +84,16 @@
 
       <!-- Complete Order Button -->
       <div class="flex justify-center mt-8">
-        <button 
-          type="submit" 
-          class="w-full p-3 bg-[#FCDC4D] text-lg font-bold rounded-[25px]"
-          style="color: #3457D5;">
-          Complete Order
-        </button>
+        <a href="{{url_for("order_confirmation/" + random.randint(1000000000, 9999999999))}}">
+          <button 
+            type="submit"
+            id="submitBtn" 
+            class="w-full p-3 bg-[#FCDC4D] text-lg font-bold rounded-[25px]"
+            style="color: #3457D5;">
+            Complete Order
+          </button>
+        </a>
       </div>
-
-      <script>
-        
-      </script>
     </form>
   </div>
 
