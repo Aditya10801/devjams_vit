@@ -3,9 +3,43 @@
 {% block title %}Profile{% endblock %}
 
 {% block content %}
+<a href="javascript:history.back()" class="text-[#3457D5] text-xl px-4 py-2 rounded-full hover:bg-opacity-90">
+    <i class="fas fa-arrow-left"></i>
+</a>
+
 <div class="px-10 py-10">
-    <h1 class="text-4xl font-bold text-[#3457D5] text-center mb-10">Profile</h1>
-    <div class="flex flex-col items-start justify-start pl-10">
+    <h1 class="text-4xl font-bold text-[#3457D5] text-center mb-10">User Profile</h1>
+    <div class="flex justify-center items-center">
+        <img src="{{ url_for('static', filename='assets/peep-68.png') }}" alt="User Image" class="rounded-full h-24 w-24 object-cover" style="display: block;" onerror="this.src='{{ url_for('static', filename='assets/default-user-image.png') }}'">
+    </div>
+    <div class="text-center mt-4">
+        <h2 class="text-2xl font-bold text-[#000000]">{{ current_user.username }}</h2>
+    </div>
+    <div class="text-center">
+        <p class="text-lg font-medium text-[#000000] rounded-[12px] flex-cols flex justify-center items-center  p-2">Room No. {{ current_user.room_no }}, {{ current_user.hostel_block }}</p>
+    </div>
+    <div class="mt-10 p-4 rounded-lg bg-[#F5F5F5] shadow">
+        <div class="flex items-center justify-center">
+            <i class="fas fa-coins text-yellow-500 text-3xl mr-2"></i>
+            <h2 class="text-2xl font-bold text-[#3457D5]">Total Points</h2>
+        </div>
+        <div class="text-center mt-2">
+            <p class="text-4xl font-medium text-[#000000]">{{ current_user.reward_points }}</p>
+        </div>
+    </div>
+    <div class="fixed mt-20  p-4 ">
+        <div class="text-center">
+            <h2 class="text-2xl font-bold mb-4 text-[#3457D5]">Update Room No.</h2>
+            <form method="POST" action="" class="flex flex-col items-center justify-center">
+                <div class="mb-4">
+                    <label for="room_no" class="text-lg font-bold text-[#3457D5]">New Room No.</label>
+                    <input type="text" class="shadow appearance-none border rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="room_no" name="room_no" value="Room No. 123" required>
+                </div>
+                <button type="submit" class="bg-[#FCDC4D] hover:opacity-90 text-[#3457D5] font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline">Update Room No.</button>
+            </form>
+        </div>
+    </div>
+    <!-- <div class="flex flex-col items-start justify-start pl-10">
         <div class="mb-4">
             <h2 class="text-lg font-bold text-[#3457D5]">Username:</h2>
             <p class="text-lg font-medium text-[#000000] px-10 rounded-[12px] flex-cols flex justify-center items-center bg-[#F5F5F5] p-2">{{ current_user.username }}</p>
@@ -18,7 +52,7 @@
             <h2 class="text-lg font-bold text-[#3457D5]">Account Type:</h2>
             <p class="text-lg font-medium text-[#000000] px-10 rounded-[12px] flex-cols flex justify-center items-center bg-[#F5F5F5] p-2">{% if current_user.is_shop %}Shop Owner{% else %}Student{% endif %}</p>
         </div>
-    </div>
+    </div> -->
     <!-- <div class="mt-10">
         <h2 class="text-2xl font-bold mb-4">Edit Reward Points</h2>
         <form method="POST" action="{{ url_for('edit_reward_points') }}" class="flex flex-col items-start justify-start pl-10">
