@@ -3,16 +3,18 @@
 {% block title %}Add Product{% endblock %}
 
 {% block content %}
-<h1>Add Product to {{ shop.name }}</h1>
+<h1 class="text-2xl font-extrabold text-[#3457D5] flex flex-cols justify-center items-center" style="font-family: 'Poppins', sans-serif;">Add Product to {{ shop.name }}</h1>
 <form method="POST">
-    <div class="mb-3">
-        <label for="name" class="form-label">Product Name</label>
-        <input type="text" class="form-control" id="name" name="name" required>
+    <div class="mb-3 mt-10 px-5">
+        <label for="name" class="form-label text-lg  mb-2 text-[#3457D5]">Product Name</label>
+        <input type="text" class="form-control shadow appearance-none border rounded-[10px] w-full py-2 px-3 text-gray-700 bg-[#F5F5F5] leading-tight focus:outline-none focus:shadow-outline" id="name" name="name" required>
     </div>
-    <div class="mb-3">
-        <label for="price" class="form-label">Price</label>
-        <input type="number" class="form-control" id="price" name="price" step="0.01" required>
+    <div class="mb-3 px-5">
+        <label for="price" class="form-label form-label text-lg  mb-2 text-[#3457D5]">Price</label>
+        <input type="number" class="form-control form-control shadow appearance-none border rounded-[10px] w-full py-2 px-3 text-gray-700 bg-[#F5F5F5] leading-tight focus:outline-none focus:shadow-outline" id="price" name="price" step="0.01" required>
     </div>
-    <button type="submit" class="btn btn-primary">Add Product</button>
+    <div class="w-full mt-4">
+        <button type="submit" class="absolute bottom-0 h-20 btn btn-primary w-full bg-[#FCDC4D] text-[#3457D5] text-3xl">Add Product</button>
+    </div>
 </form>
 {% endblock %}
