@@ -74,7 +74,7 @@ def index():
 def listing():
     shops = Shop.query.all()
     pending_orders = Order.query.filter_by(status='pending').all()
-    return render_template('index.html', shops=shops, orders=pending_orders)
+    return render_template('index.html', shops=shops, orders=pending_orders, is_admin=current_user.is_admin)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

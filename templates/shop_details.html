@@ -116,7 +116,7 @@
         {% endfor %}
     </div>
 
-    {% if current_user.is_authenticated and current_user.id == shop.user_id %}
+    {% if current_user.is_authenticated and current_user.is_admin %}
     <div class="mt-8 text-center">
         <a href="{{ url_for('add_product', shop_id=shop.id) }}"
             class="bg-[#3457D5] text-white px-4 py-2 rounded-lg hover:bg-opacity-90">Add New Product</a>
