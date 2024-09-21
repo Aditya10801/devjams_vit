@@ -4,56 +4,220 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+    <title>Delivery Service</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+    </style>
 </head>
 
-<body class="h-screen flex justify-center items-center relative">
-    <div class="max-w-md w-full mx-auto bg-white p-8 rounded-lg ">
-        <div class="text-center">
-            <h1 class="text-3xl font-extrabold text-[#3457D5]" style="font-family: 'Poppins', sans-serif;">DashMate</h1>
-            <p class="text-sm text-[#3457D5] mt-2">Become a part of the community</p>
+<body class="bg-[#ffffff]">
+    <div class="flex justify-center mb-6">
+        <div class="flex justify-center mt-4 bg-[#D6DDF7] rounded-full px-1">
+            <button id="orderNowBtn" class="bg-[#FCDC4D] text-black px-6 py-2 rounded-full flex-grow transition-all duration-300 focus:outline-none -mx-2">Order Now</button>
+            <button id="deliverNowBtn" class="bg-transparent text-black px-6 py-2 rounded-full flex-grow transition-all duration-300 focus:outline-none -mx-2">Deliver Now</button>
         </div>
-        <form class="mt-8">
-            <div class="mb-4">
-                <label class="block text-[#3457D5] text-sm font-bold mb-2" for="register-number">Register Number</label>
-                <input
-                    class="shadow  bg-[#EBEBEB] appearance-none border rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    id="register-number" type="text" placeholder="Enter your register number">
+
+    </div>
+    <div id="orderNowSection" class="mt-10">
+        <h2 class="text-2xl mx-5 font-bold text-[#3457D5]"><span class="text-[#3457D5] opacity-60">What would you like </span><br>to get delivered today?</h2>
+        <div id="shopContainer" class="grid grid-cols-2 gap-4 p-4">
+            <!-- Empty element to align shops -->
+            <div class="hidden sm:block"></div>
+            <!-- Shops will be dynamically inserted here -->
+        </div>
+
+        <script>
+            const shops = [
+                { name: "Darling Canteen", image: "https://fastly.4sqi.net/img/general/600x600/RC1KFl_fDRNv9FWIxwZw5Tuyk75raK9mBAI08f2OqOU.jpg" },
+                { name: "Balaji's Store", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJwB4wQLregfzlVw0eENXM_AF6HaZwGJCglw&s" },
+                { name: "K.C. Foods", image: "https://content3.jdmagicbox.com/comp/def_content/food-court/02208331ef-food-court-4-rucet.jpg" },
+                { name: "Madras Caffe", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVGaEOLyBBF33A-kmRHCDv5e5ZsWmuH7es8Q&s" }
+            ];
+
+            const shopContainer = document.getElementById('shopContainer');
+
+            shops.forEach((shop, index) => {
+                const shopDiv = document.createElement('div');
+                shopDiv.className = 'bg-[#D6DDF7] p-4 rounded-lg';
+                shopDiv.innerHTML = `
+                    <img src="${shop.image}" alt="${shop.name}" class="w-full h-32 object-cover rounded-lg">
+                    <p class="text-center mt-2 text-sm font-medium bg-white py-2 rounded-full">${shop.name}</p>
+                `;
+                // Insert after the empty element for the first item on larger screens
+                if (index === 0) {
+                    shopContainer.insertBefore(shopDiv, shopContainer.children[1]);
+                } else {
+                    shopContainer.appendChild(shopDiv);
+                }
+            });
+        </script>
+    </div>
+
+    <div id="deliverNowSection" class="hidden mt-4">
+        <div class="p-4">
+            <script>
+                document.getElementById('orderNowBtn').addEventListener('click', function() {
+                    document.getElementById('orderNowSection').classList.remove('hidden');
+                    document.getElementById('orderNowBtn').style.backgroundColor = '#FCDC4D';
+                    document.getElementById('deliverNowBtn').style.backgroundColor = '#D6DDF7';
+                    document.getElementById('orderNowBtn').style.zIndex = 2;
+                    document.getElementById('deliverNowBtn').style.zIndex = 1;
+                    document.getElementById('deliverNowSection').classList.add('hidden');
+
+
+                });
+
+                document.getElementById('deliverNowBtn').addEventListener('click', function() {
+                    document.getElementById('orderNowSection').classList.add('hidden');
+                    document.getElementById('deliverNowBtn').style.backgroundColor = '#FCDC4D';
+                    document.getElementById('orderNowBtn').style.backgroundColor = '#D6DDF7';
+                    document.getElementById('orderNowBtn').style.zIndex = 1;
+                    document.getElementById('deliverNowBtn').style.zIndex = 2;
+                    document.getElementById('deliverNowSection').classList.remove('hidden');
+                });
+
+            </script>
+
+            <div id="deliverNowSection" class="hidden">
+                <!-- Orders will be dynamically inserted here -->
             </div>
-            <div class="mb-4">
-                <label class="block text-[#3457D5] text-sm font-bold mb-2" for="password">Password</label>
-                <input
-                    class=" bg-[#EBEBEB] shadow appearance-none border rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    id="password" type="password" placeholder="Enter your password">
-            </div>
-            
-            <div class="mb-4">
-                <label class="block text-[#3457D5] text-sm font-bold mb-2" for="password">Confirm Password</label>
-                <input
-                    class=" bg-[#EBEBEB] shadow appearance-none border rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    id="password" type="password" placeholder="Enter your password">
-            </div>
-            <div class="mb-4">
-                <label class="block text-[#3457D5] text-sm font-bold mb-2" for="password">Room No.</label>
-                <input
-                    class=" bg-[#EBEBEB] shadow appearance-none border rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    id="password" type="password" placeholder="Enter your password">
-            </div>
-            <div class="mb-4">
-                <label class="block text-[#3457D5] text-sm font-bold mb-2" for="password">Hostel Block</label>
-                <input
-                    class=" bg-[#EBEBEB] shadow appearance-none border rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    id="password" type="password" placeholder="Enter your password">
-            </div>
-            <div class="text-center">
-                <button
-                    class="bg-[#FCDC4D] hover:opacity-90  text-[#3457D5] font-bold py-2 px-12 rounded-full focus:outline-none focus:shadow-outline"
-                    type="submit">Submit</button>
-            </div>
-        </form>
-       
+
+            <script>
+                const orders = [
+                    {
+                        name: "John Doe",
+                        contents: "1x Classmate Pulse Notebook, 2x Reynolds 045 Blue Pen",
+                        deliveryLocation: "X Block Room 252"
+                    },
+                    {
+                        name: "Jane Smith",
+                        contents: "1x Apple MacBook Pro, 1x Magic Mouse",
+                        deliveryLocation: "Y Block Room 101"
+                    },
+                    {
+                        name: "Alice Johnson",
+                        contents: "3x Moleskine Notebook, 1x Parker Pen",
+                        deliveryLocation: "Z Block Room 303"
+                    }
+                ];
+
+                const deliverNowSection = document.getElementById('deliverNowSection');
+
+                orders.forEach(order => {
+                    const orderDiv = document.createElement('div');
+                    orderDiv.className = 'bg-[#F5F5F5] p-4 rounded-lg  mb-5 flex-col';
+                    orderDiv.innerHTML = `
+                        <div class="flex-col  mt-5">    
+                            <h3 class="text-2xl font-bold">${order.name}</h3>
+                            <p class='text-[0.9rem]'>Contents: ${order.contents}</p>
+                            <p class="font-bold text-">Deliver to: ${order.deliveryLocation}</p>
+                        <div>
+                        <div class="flex-col justify-between mt-5">
+                            <button class="bg-[#3457D5] text-white px-4 py-2 rounded-lg">I'll do it :)</button>
+                            <button class="bg-[#FCDC4D] text-black px-4 py-2 rounded-lg">Can't do it :(</button>
+                        </div>
+                    `;
+                    deliverNowSection.appendChild(orderDiv);
+                });
+
+                document.getElementById('orderNowBtn').addEventListener('click', function() {
+                    document.getElementById('orderNowSection').classList.remove('hidden');
+                    document.getElementById('deliverNowSection').classList.add('hidden');
+                });
+
+                document.getElementById('deliverNowBtn').addEventListener('click', function() {
+                    document.getElementById('orderNowSection').classList.add('hidden');
+                    document.getElementById('deliverNowSection').classList.remove('hidden');
+                });
+            </script>
+            <script>
+                // Function to toggle between Order Now and Deliver Now sections
+                function toggleSections(showOrderNow) {
+                    const orderNowSection = document.getElementById('orderNowSection');
+                    const deliverNowSection = document.getElementById('deliverNowSection');
+                    const orderNowBtn = document.getElementById('orderNowBtn');
+                    const deliverNowBtn = document.getElementById('deliverNowBtn');
+
+                    if (showOrderNow) {
+                        orderNowSection.classList.remove('hidden');
+                        deliverNowSection.classList.add('hidden');
+                        orderNowBtn.classList.add('bg-[#FCDC4D]');
+                        orderNowBtn.classList.remove('bg-[#D6DDF7]');
+                        deliverNowBtn.classList.remove('bg-[#FCDC4D]');
+                        deliverNowBtn.classList.add('bg-[#D6DDF7]');
+                    } else {
+                        orderNowSection.classList.add('hidden');
+                        deliverNowSection.classList.remove('hidden');
+                        orderNowBtn.classList.remove('bg-[#FCDC4D]');
+                        orderNowBtn.classList.add('bg-[#D6DDF7]');
+                        deliverNowBtn.classList.add('bg-[#FCDC4D]');
+                        deliverNowBtn.classList.remove('bg-[#D6DDF7]');
+                    }
+                }
+
+                // Event listeners for the toggle buttons
+                document.getElementById('orderNowBtn').addEventListener('click', () => toggleSections(true));
+                document.getElementById('deliverNowBtn').addEventListener('click', () => toggleSections(false));
+
+                // Initial setup
+                toggleSections(true);
+            </script>
+
+            <style>
+                @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+                body {
+                    font-family: 'Poppins', sans-serif;
+                    background-color: #F5F5F5;
+                }
+
+                .toggle-btn {
+                    transition: background-color 0.3s ease;
+                }
+
+                .order-card {
+                    background-color: #FFFFFF;
+                    border-radius: 10px;
+                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                    margin-bottom: 16px;
+                    padding: 16px;
+                }
+
+                .order-card h3 {
+                    font-size: 18px;
+                    font-weight: 600;
+                    margin-bottom: 8px;
+                }
+
+                .order-card p {
+                    font-size: 14px;
+                    margin-bottom: 4px;
+                }
+
+                .order-card .buttons {
+                    display: flex;
+                    justify-content: space-between;
+                    margin-top: 12px;
+                }
+
+                .order-card button {
+                    padding: 8px 16px;
+                    border-radius: 8px;
+                    font-weight: 500;
+                    transition: opacity 0.3s ease;
+                }
+
+                .order-card button:hover {
+                    opacity: 0.9;
+                }
+            </style>
+        </div>
     </div>
 </body>
 
