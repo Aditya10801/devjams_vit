@@ -36,10 +36,48 @@
                 <div class="text-xl text-gray-600 mt-2">Rs.{{ item.price }}</div>
                 <div class="flex justify-end mt-4">
                     <form action="{{ url_for('add_to_cart', item_id=item.id) }}" method="post">
-                        <button type="submit"
-                            class="bg-[#FCDC4D] hover:opacity-90 text-black font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline">
-                            Add to Cart
-                        </button>
+                        <div id="add-to-cart-{{ item.id }}">
+                            <button type="button"
+                                class="bg-[#FCDC4D] hover:opacity-90 text-black font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline"
+                                onclick="addToCart('{{ item.id }}', '{{ url_for('add_to_cart', item_id=item.id) }}')">
+                                Add to Cart
+                            </button>
+                        </div>
+                        <div id="quantity-controls-{{ item.id }}" style="display: none;" class="rounded-full bg-[#EBEBEB]">
+                            <button type="button" onclick="decreaseQuantity('{{ item.id }}')"
+                                class="bg-[#FCDC4D] hover:opacity-90 mr-2 text-black font-bold py-2 px-2 rounded-full focus:outline-none focus:shadow-outline">
+                                -
+                            </button>
+                            <span id="quantity-{{ item.id }}">1</span>
+                            <button type="button" onclick="increaseQuantity('{{ item.id }}')"
+                                class="bg-[#FCDC4D] hover:opacity-90 ml-2 text-black font-bold py-2 px-2 rounded-full focus:outline-none focus:shadow-outline">
+                                +
+                            </button>
+                        </div>
+                        <script>
+                            function addToCart(itemId, url) {
+                                fetch(url, { method: 'POST' })
+                                    .then(() => {
+                                        document.querySelector('#add-to-cart-' + itemId).style.display = 'none';
+                                        document.querySelector('#quantity-controls-' + itemId).style.display = 'block';
+                                    })
+                                    .catch((error) => console.error('Error:', error));
+                            }
+
+                            function increaseQuantity(itemId) {
+                                const currentQuantity = parseInt(document.querySelector('#quantity-' + itemId).textContent);
+                                document.querySelector('#quantity-' + itemId).textContent = currentQuantity + 1;
+                                // You may want to add code here to update the quantity in the cart
+                            }
+
+                            function decreaseQuantity(itemId) {
+                                const currentQuantity = parseInt(document.querySelector('#quantity-' + itemId).textContent);
+                                if (currentQuantity > 1) {
+                                    document.querySelector('#quantity-' + itemId).textContent = currentQuantity - 1;
+                                    // You may want to add code here to update the quantity in the cart
+                                }
+                            }
+                        </script>
                     </form>
                 </div>
             </div>
