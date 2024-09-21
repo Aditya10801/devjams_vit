@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="h-screen flex justify-center items-center relative">
+    <div class="max-w-md w-full mx-auto bg-white p-8 rounded-lg ">
+        <div class="text-center">
+            <h1 class="text-3xl font-extrabold text-[#3457D5]" style="font-family: 'Poppins', sans-serif;">DashMate</h1>
+            <p class="text-sm text-[#3457D5] mt-2">Regain your access to the supercharged community</p>
+        </div>
+        <form class="mt-8">
+            <div class="mb-4">
+                <label class="block text-[#3457D5] text-sm font-bold mb-2" for="register-number">Register Number</label>
+                <input
+                    class="shadow  bg-[#EBEBEB] appearance-none border rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    id="register-number" type="text" placeholder="Enter your register number">
+            </div>
+            <div class="mb-4">
+                <label class="block text-[#3457D5] text-sm font-bold mb-2" for="password">Password</label>
+                <input
+                    class=" bg-[#EBEBEB] shadow appearance-none border rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    id="password" type="password" placeholder="Enter your password">
+            </div>
+            <div class="text-center">
+                <button
+                    class="bg-[#FCDC4D] hover:opacity-90  text-[#3457D5] font-bold py-2 px-12 rounded-full focus:outline-none focus:shadow-outline"
+                    type="submit">Submit</button>
+            </div>
+        </form>
+        <div class="flex flex-cols justify-center items-center">
+            <div class="bottom-10 px-5  absolute grid grid-cols text-[#3457D5]">  <div class="text-xl text-gray-600">Not part of the clan?</div>
+            <div><a class="underline underline-offset-4 flex flex-cols justify-center items-center text-[#3457D5]" href="#">Register</a></div>
+        </div>
+        </div>
+        <!-- <div class="flex justify-between fixed bottom-0 w-full p-4 bg-white">
+            <div class="text-sm text-gray-600">Not part of the clan?</div>
+            <div><a class="text-blue-500 hover:text-blue-700" href="#">Register</a></div>
+        </div> -->
+    </div>
+</body>
+
+</html>
