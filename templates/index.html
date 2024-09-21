@@ -9,7 +9,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <script src="https://kit.fontawesome.com/c416e79406.js" crossorigin="anonymous"></script>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
     <style>
         * {
             font-family: 'Poppins', sans-serif;
@@ -17,7 +18,8 @@
     </style>
 </head>
 
-<body class="bg-[#ffffff] py-5">
+<body class="bg-[#ffffff] py-5 relative">
+
     <div class="flex justify-between px-4 mt-4 mb-4">
         <a href="javascript:history.back()" class="text-[#3457D5]  px-4 py-2 rounded-full hover:bg-opacity-90">
             <i class="fas fa-arrow-left"></i>
@@ -28,29 +30,34 @@
         </a>
 
         <div class="flex items-center gap-2 relative">
-            <a href="{{ url_for('cart') }}" class="bg-[#FCDC4D] text-[#3457D5] px-4 py-2 rounded-full hover:bg-opacity-90">
+            <a href="{{ url_for('cart') }}"
+                class="bg-[#FCDC4D] text-[#3457D5] px-4 py-2 rounded-full hover:bg-opacity-90">
                 <i class="fas fa-shopping-cart"></i>
             </a>
-            
         </div>
     </div>
+
     <div class="flex gap-10 justify-center mb-6 mt-4">
         <div class="flex justify-center mt-4 bg-[#D6DDF7] rounded-full px-1">
-            <button id="orderNowBtn" class="bg-[#FCDC4D] font-bold px-6 py-2 rounded-full flex-grow transition-all duration-300 focus:outline-none -mx-2">Order Now</button>
-            <button id="deliverNowBtn" class="font-bold px-6 py-2 rounded-full flex-grow transition-all duration-300 focus:outline-none -mx-2">Deliver Now</button>
+            <button id="orderNowBtn"
+                class="bg-[#FCDC4D] font-bold px-6 py-2 rounded-full flex-grow transition-all duration-300 focus:outline-none -mx-2">Order
+                Now</button>
+            <button id="deliverNowBtn"
+                class="font-bold px-6 py-2 rounded-full flex-grow transition-all duration-300 focus:outline-none -mx-2">Deliver
+                Now</button>
         </div>
     </div>
 
-    
-
     <div id="orderNowSection" class="mt-10">
-        <h2 class="text-2xl mx-5 font-bold text-[#3457D5]"><span class="text-[#3457D5] opacity-60">What would you like </span><br>to get delivered today?</h2>
+        <h2 class="text-2xl mx-5 font-bold text-[#3457D5]"><span class="text-[#3457D5] opacity-60">What would you like
+            </span><br>to get delivered today?</h2>
         <div id="shopContainer" class="grid grid-cols-2 gap-4 p-4">
             <!-- Empty element to align shops -->
             <div class="hidden sm:block"></div>
             {% for shop in shops %}
             <a href="{{ url_for('shop_details', shop_id=shop.id) }}" class="bg-[#D6DDF7] p-4 rounded-lg">
-                <img src="{{ shop.image_url or 'https://via.placeholder.com/150' }}" alt="{{ shop.name }}" class="w-full h-32 object-cover rounded-lg">
+                <img src="{{ shop.image_url or 'https://via.placeholder.com/150' }}" alt="{{ shop.name }}"
+                    class="w-full h-32 object-cover rounded-lg">
                 <p class="text-center mt-2 text-sm font-medium bg-white py-2 rounded-full">{{ shop.name }}</p>
             </a>
             {% endfor %}
@@ -61,21 +68,29 @@
         <div class="p-4">
             {% for order in orders %}
             <div class="bg-[#F5F5F5] p-4 rounded-lg mb-5 flex-col">
-                <div class="flex-col mt-5">    
+                <div class="flex-col mt-5">
                     <h3 class="text-2xl font-bold">{{ order.user.username }}</h3>
                     <p class='text-[0.9rem]'>Contents: {{ order.item.name }}</p>
                     <p class="font-bold text-">Deliver to: {{ order.delivery_address }}</p>
                 </div>
                 <div class="flex-col justify-between mt-5">
                     <form action="{{ url_for('accept_delivery', order_id=order.id) }}" method="post">
-                        <button type="submit" class="bg-[#3457D5] text-white px-4 py-2 rounded-lg">I'll do it :)</button>
-                        <button id='deliveryRejectBtn' class="bg-[#FCDC4D] text-black px-4 py-2 rounded-lg">Can't do it :(</button>
+                        <button type="submit" class="bg-[#3457D5] text-white px-4 py-2 rounded-lg">I'll do it
+                            :)</button>
+                        <button id='deliveryRejectBtn' class="bg-[#FCDC4D] text-black px-4 py-2 rounded-lg">Can't do it
+                            :(</button>
                     </form>
                 </div>
             </div>
             {% endfor %}
         </div>
     </div>
+
+    <!-- Sticky Button -->
+    <a href="{{url_for('create_shop')}}"
+        class="fixed bottom-4 right-4 bg-[#FCDC4D] text-[#3457D5] rounded-full w-16 h-16 flex flex-cols justify-center items-center shadow-lg hover:bg-opacity-90 transition duration-200">
+        <i class="fas fa-plus fa-lg"></i>
+    </a>
 
     <script>
         const orderNowBtn = document.getElementById('orderNowBtn');
@@ -108,10 +123,6 @@
         deliverNowBtn.addEventListener('click', () => toggleOrderSections(false));
 
         toggleSections(true);
-    </script>
-</body>
-
-</html>
     </script>
 </body>
 
