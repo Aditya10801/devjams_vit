@@ -24,7 +24,7 @@ class User(UserMixin, db.Model):
     reward_points = db.Column(db.Integer, default=10)
     room_no = db.Column(db.String(20))
     hostel_block = db.Column(db.String(20))
-    # is_admin = db.Column(db.Boolean, default=False)
+    is_admin = db.Column(db.Boolean, default=False)
 
 class Shop(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -336,17 +336,19 @@ def add_sample_data():
         return
 
     # Create sample users
-    user1 = User(username="student1", password_hash=generate_password_hash("password"), 
-                 reward_points=10, room_no="101", hostel_block="A")
-    user2 = User(username="student2", password_hash=generate_password_hash("password"), 
-                 reward_points=5, room_no="202", hostel_block="B")
-    db.session.add_all([user1, user2])
+    user1 = User(username="24BCE2383", password_hash=generate_password_hash("Utkarsh"), 
+                 reward_points=10, room_no="328", hostel_block="Q")
+    user2 = User(username="24BCE2370", password_hash=generate_password_hash("Aditya"), 
+                 reward_points=5, room_no="217", hostel_block="T")
+    user3 = User(username="admin", password_hash=generate_password_hash("admin"), 
+                 reward_points=5, room_no="000", hostel_block="AA")
+    db.session.add_all([user1, user2, user3])
     db.session.commit()
 
     # Create sample shops
     shops = [
         Shop(name="Darling Canteen", shop_type="Food", image_url="https://fastly.4sqi.net/img/general/600x600/RC1KFl_fDRNv9FWIxwZw5Tuyk75raK9mBAI08f2OqOU.jpg"),
-        Shop(name="Balaji's Store", shop_type="Stationary", image_url="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJwB4wQLregfzlVw0eENXM_AF6HaZwGJCglw&s"),
+        Shop(name="Balaji Store", shop_type="Stationary", image_url="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJwB4wQLregfzlVw0eENXM_AF6HaZwGJCglw&s"),
         Shop(name="K.C. Foods", shop_type="Food", image_url="https://content3.jdmagicbox.com/comp/def_content/food-court/02208331ef-food-court-4-rucet.jpg"),
         Shop(name="Madras Caffe", shop_type="Food", image_url="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVGaEOLyBBF33A-kmRHCDv5e5ZsWmuH7es8Q&s")
     ]
