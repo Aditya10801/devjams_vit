@@ -1,79 +1,49 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://api.fontshare.com/v2/css?f[]=satoshi@700,500,300&display=swap" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/c416e79406.js" crossorigin="anonymous"></script>
-    <style>
-        .body {
-            overflow-y: hidden;
-        }
-    </style>
-     <Script>
-        // Check if user is on a laptop
-    function isLaptop() {
-      const userAgent = navigator.userAgent.toLowerCase();
-      const laptopKeywords = ["macintosh", "windows"];
-    
-      for (const keyword of laptopKeywords) {
-        if (userAgent.includes(keyword)) {
-          return true;
-        }
-      }
-    
-      return false;
-    }
-    
-    // Redirect if user is on a laptop
-    if (isLaptop()) {
-      window.location.href = "laptop.html";
-    }
-        </script>
 </head>
 
-<body class="bg-[#FCFBF4]" style="font-family: 'Satoshi', sans-serif;">
-    <nav class="flex justify-between items-center p-4">
-        <a href="index.html" class="text-2xl font-bold">DashMate</a>
-    <div class="flex gap-4">
-        <a href="register.html" class="bg-[#6B8E23] hover:bg-[#3E5C23] text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline">Register</a>
-        <a href="login.html" class="bg-[#6B8E23] hover:bg-[#3E5C23] text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline">Login</a>
-    </div>
-    </nav>
-<div class="flex justify-center items-center h-[83vh] px-8">
- 
-    <div class="bg-[#E7EFC5] p-5 rounded-lg shadow-md w-full">
-        <h2 class="text-2xl font-bold text-center mb-5 text-[#6B8E23]">Login</h2>
-        <form>
+<body class="h-screen flex justify-center items-center relative">
+    <div class="max-w-md w-full mx-auto bg-white p-8 rounded-lg ">
+        <div class="text-center">
+            <h1 class="text-3xl font-extrabold text-[#3457D5]" style="font-family: 'Poppins', sans-serif;">DashMate</h1>
+            <p class="text-sm text-[#3457D5] mt-2">Regain your access to the supercharged community</p>
+        </div>
+        <form class="mt-8">
             <div class="mb-4">
-                <label for="username" class="block text-[#6B8E23] text-sm font-bold mb-2">Username:</label>
-                <input type="text" id="username" class="shadow appearance-none border rounded-full w-full py-2 px-2 text-[#6B8E23] leading-tight focus:outline-none focus:shadow-outline">
+                <label class="block text-[#3457D5] text-sm font-bold mb-2" for="register-number">Register Number</label>
+                <input
+                    class="shadow  bg-[#EBEBEB] appearance-none border rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    id="register-number" type="text" placeholder="Enter your register number">
             </div>
             <div class="mb-4">
-                <label for="password" class="block text-[#6B8E23] text-sm font-bold mb-2">Password:</label>
-                <input type="password" id="password" class="shadow appearance-none border rounded-full w-full py-2 px-2 text-[#6B8E23] leading-tight focus:outline-none focus:shadow-outline">
+                <label class="block text-[#3457D5] text-sm font-bold mb-2" for="password">Password</label>
+                <input
+                    class=" bg-[#EBEBEB] shadow appearance-none border rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    id="password" type="password" placeholder="Enter your password">
             </div>
-            <div class="flex items-center justify-between">
-                <button class="bg-[#6B8E23] hover:bg-[#3E5C23] text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline" type="submit" onclick="window.location.href='home.html'">Login</button>
-                <a class="inline-block align-baseline font-bold text-sm text-[#6B8E23] hover:text-[#3E5C23]" href="home.html">Forgot Password?</a>
+            <div class="text-center">
+                <button
+                    class="bg-[#FCDC4D] hover:opacity-90  text-[#3457D5] font-bold py-2 px-12 rounded-full focus:outline-none focus:shadow-outline"
+                    type="submit">Submit</button>
             </div>
         </form>
+        <div class="flex flex-cols justify-center items-center">
+            <div class="bottom-10 px-5  absolute grid grid-cols text-[#3457D5]">  <div class="text-xl text-gray-600">Not part of the clan?</div>
+            <div><a class="underline underline-offset-4 flex flex-cols justify-center items-center text-[#3457D5]" href="#">Register</a></div>
+        </div>
+        </div>
+        <!-- <div class="flex justify-between fixed bottom-0 w-full p-4 bg-white">
+            <div class="text-sm text-gray-600">Not part of the clan?</div>
+            <div><a class="text-blue-500 hover:text-blue-700" href="#">Register</a></div>
+        </div> -->
     </div>
-
-</div>
-
-<footer class="bg-[#E7EFC5] p-5 rounded-lg shadow-md w-full mt-5">
-    <p class="text-center text-[#6B8E23]">2023 DashMate. All rights reserved.</p>
-</footer>
-
-
-
-
-
-
 </body>
-
 
 </html>
