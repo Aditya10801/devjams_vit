@@ -325,10 +325,10 @@ def process_payment():
                            total=total, 
                            upi_id=upi_id)
 
-@app.route('/order_confirmation/<transaction_id>')
+@app.route('/order_confirmation/')
 @login_required
-def order_confirmation(transaction_id):
-    return render_template('order_confirmation.html', transaction_id=transaction_id)
+def order_confirmation():
+    return render_template('order_confirmation.html', transaction_id=random.randint(1000000000, 999999999999))
 
 def add_sample_data():
     # Check if data already exists
