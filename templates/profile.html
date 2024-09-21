@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+<div class="px-10 py-10">
+    <h1 class="text-4xl font-bold text-[#3457D5] text-center mb-10">Profile</h1>
+    <div class="flex flex-col items-start justify-start pl-10">
+        <div class="mb-4">
+            <h2 class="text-lg font-bold text-[#3457D5]">Username:</h2>
+            <p class="text-lg font-medium text-[#000000] px-10 rounded-[12px] flex-cols flex justify-center items-center bg-[#F5F5F5] p-2">{{ current_user.username }}</p>
+        </div>
+        <div class="mb-4">
+            <h2 class="text-lg font-bold text-[#3457D5]">Reward Points:</h2>
+            <p class="text-lg font-medium text-[#000000] px-10 rounded-[12px] flex-cols flex justify-center items-center bg-[#F5F5F5] p-2">{{ current_user.reward_points }}</p>
+        </div>
+        <div class="mb-10">
+            <h2 class="text-lg font-bold text-[#3457D5]">Account Type:</h2>
+            <p class="text-lg font-medium text-[#000000] px-10 rounded-[12px] flex-cols flex justify-center items-center bg-[#F5F5F5] p-2">{% if current_user.is_shop %}Shop Owner{% else %}Student{% endif %}</p>
+        </div>
+    </div>
+    <!-- <div class="mt-10">
+        <h2 class="text-2xl font-bold mb-4">Edit Reward Points</h2>
+        <form method="POST" action="{{ url_for('edit_reward_points') }}" class="flex flex-col items-start justify-start pl-10">
+            <div class="mb-4">
+                <label for="reward_points" class="form-label">New Reward Points</label>
+                <input type="number" class="form-control" id="reward_points" name="reward_points" value="{{ current_user.reward_points }}" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Update Reward Points</button>
+        </form>
+    </div> -->
+</div>
+{% endblock %}

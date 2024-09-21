@@ -4,11 +4,14 @@ from flask_login import LoginManager, UserMixin, login_user, login_required, log
 from werkzeug.security import generate_password_hash, check_password_hash
 import random
 import string
-import qrcode
 import base64
 import io
+import string
+import qrcode
+import base64
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'your_secret_key'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///delivery_system.db'
 db = SQLAlchemy(app)
 login_manager = LoginManager(app)
@@ -66,6 +69,12 @@ def load_user(user_id):
 def index():
     return render_template('home.html')
 
+@app.route('/listing')
+def listing():
+    shops = Shop.query.all()
+    pending_orders = Order.query.filter_by(status='pending').all()
+    return render_template('index.html', shops=shops, orders=pending_orders)
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -112,6 +121,17 @@ def logout():
 def profile():
     return render_template('profile.html')
 
+@app.route('/edit_reward_points', methods=['POST'])
+@login_required
+def edit_reward_points():
+    new_points = request.form.get('reward_points', type=int)
+    if new_points is not None:
+        current_user.reward_points = new_points
+        db.session.commit()
+        flash('Reward points updated successfully!', 'success')
+    else:
+        flash('Invalid reward points value', 'error')
+    return redirect(url_for('profile'))
 
 @app.route('/create_shop', methods=['GET', 'POST'])
 @login_required
@@ -135,6 +155,92 @@ def create_shop():
         flash('Shop created successfully!', 'success')
         return redirect(url_for('index'))
     return render_template('create_shop.html')
+
+@app.route('/shop/<int:shop_id>')
+def shop_details(shop_id):
+    shop = Shop.query.get_or_404(shop_id)
+    items = Item.query.filter_by(shop_id=shop_id).all()
+    return render_template('shop_details.html', shop=shop, items=items)
+
+@app.route('/place_order/<int:item_id>', methods=['POST'])
+@login_required
+def place_order(item_id):
+    item = Item.query.get_or_404(item_id)
+    if current_user.reward_points >= 1:  # Check if user has enough reward points for delivery
+        current_user.reward_points -= 1  # Deduct 1 reward point for delivery
+        delivery_address = f"{current_user.room_no}, {current_user.hostel_block}"
+        order = Order(user_id=current_user.id, shop_id=item.shop_id, item_id=item.id, 
+                      delivery_address=delivery_address)
+        db.session.add(order)
+        db.session.commit()
+        flash('Order placed successfully! 1 reward point used for delivery.', 'success')
+    else:
+        flash('Not enough reward points for delivery. You need at least 1 reward point.', 'warning')
+    return redirect(url_for('shop_details', shop_id=item.shop_id))
+
+@app.route('/manage_orders')
+@login_required
+def manage_orders():
+    if current_user.is_shop:
+        shop = Shop.query.filter_by(user_id=current_user.id).first()
+        orders = Order.query.filter_by(shop_id=shop.id).all() if shop else []
+    else:
+        # Show all pending orders and orders related to the current user
+        orders = Order.query.filter(
+            (Order.status == 'pending') |
+            (Order.user_id == current_user.id) |
+            (Order.delivery_user_id == current_user.id)
+        ).all()
+    return render_template('manage_orders.html', orders=orders)
+
+@app.route('/accept_delivery/<int:order_id>', methods=['POST'])
+@login_required
+def accept_delivery(order_id):
+    order = Order.query.get_or_404(order_id)
+    if current_user.is_shop or order.user_id == current_user.id:
+        flash('You are not allowed to accept this delivery.', 'error')
+    elif order.status != 'pending' or order.delivery_user_id is not None:
+        flash('This order is no longer available for delivery.', 'error')
+    elif Order.query.filter_by(delivery_user_id=current_user.id, status='in_progress').first():
+        flash('You can only accept one order at a time.', 'error')
+    else:
+        order.delivery_user_id = current_user.id
+        order.status = 'in_progress'
+        db.session.commit()
+        flash('Delivery accepted!', 'success')
+    return redirect(url_for('manage_orders'))
+
+@app.route('/complete_delivery/<int:order_id>', methods=['POST'])
+@login_required
+def complete_delivery(order_id):
+    order = Order.query.get_or_404(order_id)
+    if order.delivery_user_id != current_user.id:
+        flash('You are not authorized to complete this delivery.', 'error')
+    else:
+        order.status = 'completed'
+        current_user.reward_points += 1  # Award 1 reward point to the delivery user
+        db.session.commit()
+        flash('Delivery completed! You earned 1 reward point.', 'success')
+    return redirect(url_for('manage_orders'))
+
+@app.route('/shop/<int:shop_id>/add_product', methods=['GET', 'POST'])
+@login_required
+def add_product(shop_id):
+    shop = Shop.query.get_or_404(shop_id)
+    if shop.user_id != current_user.id:
+        flash('You do not have permission to add products to this shop.', 'error')
+        return redirect(url_for('index'))
+
+    if request.method == 'POST':
+        name = request.form['name']
+        price = request.form['price']
+        item = Item(name=name, price=float(price), shop_id=shop.id)
+        db.session.add(item)
+        db.session.commit()
+        flash('Product added successfully!', 'success')
+        return redirect(url_for('shop_details', shop_id=shop.id))
+    
+    return render_template('add_product.html', shop=shop)
 
 @app.route('/user')
 @login_required
@@ -161,6 +267,27 @@ def checkout():
 def delivery():
     return render_template('delivery.html')
 
+@app.route('/add_to_cart/<int:item_id>', methods=['POST'])
+@login_required
+def add_to_cart(item_id):
+    item = Item.query.get_or_404(item_id)
+    user_cart = CartItem.query.filter_by(user_id=current_user.id).first()
+    
+    if user_cart and user_cart.shop_id != item.shop_id:
+        flash('You can only add items from one shop to your cart. Please clear your cart first.', 'warning')
+        return redirect(url_for('shop_details', shop_id=item.shop_id))
+    
+    cart_item = CartItem.query.filter_by(user_id=current_user.id, item_id=item_id).first()
+    
+    if cart_item:
+        cart_item.quantity += 1
+    else:
+        cart_item = CartItem(user_id=current_user.id, item_id=item_id, shop_id=item.shop_id)
+        db.session.add(cart_item)
+    
+    db.session.commit()
+    flash('Item added to cart successfully!', 'success')
+    return redirect(url_for('shop_details', shop_id=item.shop_id))
 
 @app.route('/cart')
 @login_required
@@ -186,7 +313,8 @@ def process_payment():
     cart_items = CartItem.query.filter_by(user_id=current_user.id).all()
     total = sum(item.item.price * item.quantity for item in cart_items)
     
-    upi_id = f"dashmate@upi"
+    # Generate a simple UPI ID (this is a placeholder, use a real UPI ID in production)
+    upi_id = f"dashmate{current_user.id}@upi"
     
     # Generate QR code
     qr = qrcode.QRCode(version=1, box_size=10, border=5)
@@ -199,8 +327,67 @@ def process_payment():
     img.save(buffered)
     qr_code_base64 = base64.b64encode(buffered.getvalue()).decode()
     
-    return render_template('paymentpage.html', qr_code=qr_code_base64, total=total, upi_id=upi_id)
+    return render_template('paymentpage.html', 
+                           qr_code=qr_code_base64, 
+                           total=total, 
+                           upi_id=upi_id)
 
+@app.route('/order_confirmation/<transaction_id>')
+@login_required
+def order_confirmation(transaction_id):
+    return render_template('order_confirmation.html', transaction_id=transaction_id)
+
+def add_sample_data():
+    # Check if data already exists
+    if Shop.query.first() is not None:
+        return
+
+    # Create sample users
+    user1 = User(username="student1", password_hash=generate_password_hash("password"), 
+                 reward_points=10, room_no="101", hostel_block="A")
+    user2 = User(username="student2", password_hash=generate_password_hash("password"), 
+                 reward_points=5, room_no="202", hostel_block="B")
+    db.session.add_all([user1, user2])
+    db.session.commit()
+
+    # Create sample shops
+    shops = [
+        Shop(name="Darling Canteen", shop_type="Food", image_url="https://fastly.4sqi.net/img/general/600x600/RC1KFl_fDRNv9FWIxwZw5Tuyk75raK9mBAI08f2OqOU.jpg"),
+        Shop(name="Balaji's Store", shop_type="Stationary", image_url="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJwB4wQLregfzlVw0eENXM_AF6HaZwGJCglw&s"),
+        Shop(name="K.C. Foods", shop_type="Food", image_url="https://content3.jdmagicbox.com/comp/def_content/food-court/02208331ef-food-court-4-rucet.jpg"),
+        Shop(name="Madras Caffe", shop_type="Food", image_url="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVGaEOLyBBF33A-kmRHCDv5e5ZsWmuH7es8Q&s")
+    ]
+
+    db.session.add_all(shops)
+    db.session.commit()
+
+    # Create sample items for each shop
+    items = [
+        Item(name="Dosa", price=30, shop_id=shops[0].id),
+        Item(name="Idli", price=20, shop_id=shops[0].id),
+        Item(name="Coffee", price=15, shop_id=shops[0].id),
+        Item(name="Notebook", price=40, shop_id=shops[1].id),
+        Item(name="Pen", price=10, shop_id=shops[1].id),
+        Item(name="Pencil", price=5, shop_id=shops[1].id),
+        Item(name="Biriyani", price=80, shop_id=shops[2].id),
+        Item(name="Fried Rice", price=60, shop_id=shops[2].id),
+        Item(name="Filter Coffee", price=20, shop_id=shops[3].id),
+        Item(name="Vada", price=15, shop_id=shops[3].id)
+    ]
+
+    db.session.add_all(items)
+    db.session.commit()
+
+    # Create sample orders
+    order1 = Order(user_id=user1.id, shop_id=shops[0].id, item_id=items[0].id, status="pending", 
+                   delivery_address=f"{user1.room_no}, {user1.hostel_block}")
+    order2 = Order(user_id=user2.id, shop_id=shops[1].id, item_id=items[3].id, status="pending", 
+                   delivery_address=f"{user2.room_no}, {user2.hostel_block}")
+
+    db.session.add_all([order1, order2])
+    db.session.commit()
+
+    print("Sample data added successfully!")
 
 if __name__ == '__main__':
     with app.app_context():

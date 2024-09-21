@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Create Shop{% endblock %}
+
+{% block content %}
+<h1>Create New Shop</h1>
+<form method="POST">
+    <div class="mb-3">
+        <label for="name" class="form-label">Shop Name</label>
+        <input type="text" class="form-control" id="name" name="name" required>
+    </div>
+    <div class="mb-3">
+        <label for="shop_type" class="form-label">Shop Type</label>
+        <select class="form-select" id="shop_type" name="shop_type" required>
+            <option value="">Select shop type</option>
+            <option value="food">Food</option>
+            <option value="stationary">Stationary</option>
+        </select>
+    </div>
+    <h3>Initial Products</h3>
+    <div id="products">
+        <div class="product-entry mb-3">
+            <input type="text" class="form-control mb-2" name="product_names[]" placeholder="Product Name" required>
+            <input type="number" class="form-control mb-2" name="product_prices[]" placeholder="Price" step="0.01" required>
+        </div>
+    </div>
+    <button type="button" class="btn btn-secondary mb-3" onclick="addProductField()">Add Another Product</button>
+    <br>
+    <button type="submit" class="btn btn-primary">Create Shop</button>
+</form>
+
+<script>
+function addProductField() {
+    const productsDiv = document.getElementById('products');
+    const newProductEntry = document.createElement('div');
+    newProductEntry.className = 'product-entry mb-3';
+    newProductEntry.innerHTML = `
+        <input type="text" class="form-control mb-2" name="product_names[]" placeholder="Product Name" required>
+        <input type="number" class="form-control mb-2" name="product_prices[]" placeholder="Price" step="0.01" required>
+    `;
+    productsDiv.appendChild(newProductEntry);
+}
+</script>
+{% endblock %}

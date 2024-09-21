@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+
+<form method="POST">
+    <div class="text-center">
+        <h1 class="text-3xl font-extrabold text-[#3457D5]" style="font-family: 'Poppins', sans-serif;">DashMate</h1>
+        <p class="text-sm text-[#3457D5] mt-2">Become part of the community now</p>
+    </div>
+    <div class="px-5">
+        <div class="mb-4 mt-10">
+            <label class="block text-[#3457D5] text-sm font-bold mb-2" for="register-number">Register Number</label>
+            <input
+                class="shadow  bg-[#EBEBEB] appearance-none border rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="register-number" name="username" type="text" placeholder="Enter your register number" required>
+        </div>
+        <div class="mb-4">
+            <label class="block text-[#3457D5] text-sm font-bold mb-2" for="password">Password</label>
+            <input
+                class=" bg-[#EBEBEB] shadow appearance-none border rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="password" name="password" type="password" placeholder="Enter your password" required>
+        </div>
+
+        <div class="mb-4">
+            <label class="block text-[#3457D5] text-sm font-bold mb-2" for="confirm-password">Confirm Password</label>
+            <input
+                class=" bg-[#EBEBEB] shadow appearance-none border rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="confirm-password" name="confirm_password" type="password" placeholder="Confirm your password"
+                required>
+        </div>
+        <div class="mb-4">
+            <label class="block text-[#3457D5] text-sm font-bold mb-2" for="room-no">Room No.</label>
+            <input
+                class=" bg-[#EBEBEB] shadow appearance-none border rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="room-no" name="room_no" type="text" placeholder="Enter your room number" required>
+        </div>
+        <div class="mb-4">
+            <label class="block text-[#3457D5] text-sm font-bold mb-2" for="hostel-block">Hostel Block</label>
+            <input
+                class=" bg-[#EBEBEB] shadow appearance-none border rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="hostel-block" name="hostel_block" type="text" placeholder="Enter your hostel block" required>
+        </div>
+        <div class="text-center">
+            <button
+                class="bg-[#FCDC4D] mt-10 hover:opacity-90  text-[#3457D5] font-bold py-2 px-12 rounded-full focus:outline-none focus:shadow-outline"
+                type="submit">Submit</button>
+        </div>
+    </div>
+</form>
+{% endblock %}

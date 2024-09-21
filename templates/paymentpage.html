@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment Checkout</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Inline SVG for a card icon */
+    .card-icon {
+      width: 24px;
+      height: 24px;
+    }
+    /* Custom placeholder color */
+    ::placeholder {
+      color: #B5B3B3;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+
+  <div class="rounded-lg p-8 max-w-lg w-full relative">
+    
+    <!-- Heading -->
+    <h1 class="text-2xl font-bold text-center mb-8" style="color: #3457D5;">Complete your Order</h1>
+    
+    <!-- QR Code Placeholder -->
+    <div class="flex justify-center mb-4">
+      <!-- Replace this div with an actual QR code image -->
+      <div class="w-40 h-40 bg-gray-200 flex items-center justify-center">
+        <span class="text-gray-500">QR Code</span>
+      </div>
+    </div>
+
+    <!-- Pay using UPI text -->
+    <p class="text-center text-gray-600 mb-4">Pay Using UPI</p>
+
+    <!-- Horizontal Line and "OR" Text -->
+    <div class="flex items-center justify-center mb-4">
+      <hr class="w-full border-gray-300">
+      <span class="px-2 text-gray-600">OR</span>
+      <hr class="w-full border-gray-300">
+    </div>
+
+    <!-- Pay using Card text with Icon -->
+    <div class="flex items-center justify-center mb-8">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="card-icon mr-2 text-gray-700">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 7.5h16.5m-16.5 4.5h16.5M3.75 18h16.5a2.25 2.25 0 002.25-2.25V8.25A2.25 2.25 0 0020.25 6H3.75A2.25 2.25 0 001.5 8.25v7.5A2.25 2.25 0 003.75 18z" />
+      </svg>
+      <p class="text-center text-gray-600">Pay Using Card</p>
+    </div>
+
+    <!-- Card Details Form -->
+    <form class="space-y-6">
+      <!-- Card Number -->
+      <input 
+        type="text" 
+        placeholder="Enter card number" 
+        class="w-full p-3 border border-gray-300 rounded-[20px] bg-[#EAEAEA] text-gray-700"
+      />
+
+      <!-- Name on the Card -->
+      <input 
+        type="text" 
+        placeholder="Name on the card" 
+        class="w-full p-3 border border-gray-300 rounded-[20px] bg-[#EAEAEA] text-gray-700"
+      />
+
+      <!-- Expiry Date and CVV -->
+      <div class="flex space-x-4">
+        <!-- MM/YY -->
+        <input 
+          type="text" 
+          placeholder="MM/YY" 
+          class="w-1/2 p-3 border border-gray-300 rounded-[20px] bg-[#EAEAEA] text-gray-700"
+        />
+        <!-- CVV -->
+        <input 
+          type="text" 
+          placeholder="CVV" 
+          class="w-1/2 p-3 border border-gray-300 rounded-[20px] bg-[#EAEAEA] text-gray-700"
+        />
+      </div>
+
+      <!-- Complete Order Button -->
+      <div class="flex justify-center mt-8">
+        <button 
+          type="submit" 
+          class="w-full p-3 bg-[#FCDC4D] text-lg font-bold rounded-[25px]"
+          style="color: #3457D5;">
+          Complete Order
+        </button>
+      </div>
+    </form>
+  </div>
+
+</body>
+</html>
