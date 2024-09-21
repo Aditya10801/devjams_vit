@@ -109,7 +109,7 @@ def register():
             return redirect(url_for('register'))
         
         user = User(username=username, password_hash=generate_password_hash(password), 
-                    room_no=room_no, hostel_block=hostel_block)
+                    room_no=room_no, hostel_block=hostel_block, is_admin=False)
         db.session.add(user)
         db.session.commit()
         
@@ -341,7 +341,7 @@ def add_sample_data():
     user2 = User(username="24BCE2370", password_hash=generate_password_hash("Aditya"), 
                  reward_points=5, room_no="217", hostel_block="T")
     user3 = User(username="admin", password_hash=generate_password_hash("admin"), 
-                 reward_points=5, room_no="000", hostel_block="AA")
+                 reward_points=5, room_no="000", hostel_block="AA", is_admin = True)
     db.session.add_all([user1, user2, user3])
     db.session.commit()
 

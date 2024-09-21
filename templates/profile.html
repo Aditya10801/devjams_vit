@@ -28,15 +28,44 @@
         </div>
     </div>
     <div class="fixed mt-20  p-4 ">
-        <div class="text-center">
-            <h2 class="text-2xl font-bold mb-4 text-[#3457D5]">Update Room No.</h2>
-            <form method="POST" action="" class="flex flex-col items-center justify-center">
+        <div class="">
+            <h2 class="text-2xl text-center font-bold mb-4 p-0 text-[#3457D5]">Update Room No.</h2>
+            <form action="" class="flex flex-col items-center justify-center">
                 <div class="mb-4">
-                    <label for="room_no" class="text-lg font-bold text-[#3457D5]">New Room No.</label>
+                    <label for="room_no" class="text-lg font-bold mb-4 text-[#3457D5]">New Room No.</label>
                     <input type="text" class="shadow appearance-none border rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="room_no" name="room_no" value="Room No. 123" required>
                 </div>
-                <button type="submit" class="bg-[#FCDC4D] hover:opacity-90 text-[#3457D5] font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline">Update Room No.</button>
+                <button type="submit" id='submitBtn' class="bg-[#FCDC4D] hover:opacity-90 text-[#3457D5] font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline">Update Room No.</button>
             </form>
+
+            <script>
+                const submitBtn = document.getElementById('submitBtn');
+                const popup = document.createElement('div');
+                popup.className = 'fixed inset-0 flex items-center justify-center z-50 hidden';
+                popup.innerHTML = `
+                    <div class="absolute inset-0 bg-gray-500 bg-opacity-50"></div>
+                    <div class="bg-white p-6 rounded-lg shadow-lg text-center max-w-xs relative z-10">
+                        <h3 class="text-xl font-bold text-[#3457D5] mb-4">Room Change Not Allowed</h3>
+                        <p class="text-lg text-[#000000] mb-6">Your room cannot be changed this year.</p>
+                        <button id="closePopup" class="bg-[#FCDC4D] hover:opacity-90 text-[#3457D5] font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline">
+                            Close
+                        </button>
+                    </div>
+                `;
+                document.body.appendChild(popup);
+
+                submitBtn.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    popup.classList.remove('hidden');
+                    document.body.style.overflow = 'hidden';
+                });
+
+                document.getElementById('closePopup').addEventListener('click', () => {
+                    popup.classList.add('hidden');
+                    document.body.style.overflow = 'auto';
+                });
+            </script>
+
         </div>
     </div>
     <!-- <div class="flex flex-col items-start justify-start pl-10">
