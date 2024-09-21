@@ -17,7 +17,7 @@ db = SQLAlchemy(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 
-class User(db.Model):
+class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     password_hash = db.Column(db.String(120), nullable=False)
@@ -84,7 +84,7 @@ def login():
         if user and check_password_hash(user.password_hash, password):
             login_user(user)
             flash('Logged in successfully!', 'success')
-            return redirect(url_for('index'))
+            return redirect(url_for('listing'))
         flash('Invalid username or password', 'error')
     return render_template('login.html')
 
@@ -96,18 +96,18 @@ def register():
         confirm_password = request.form['confirm_password']
         room_no = request.form['room_no']
         hostel_block = request.form['hostel_block']
-        is_shop = 'is_shop' in request.form
         
         if password != confirm_password:
             flash('Passwords do not match', 'error')
             return redirect(url_for('register'))
         
         user = User(username=username, password_hash=generate_password_hash(password), 
-                    is_shop=False, room_no=room_no, hostel_block=hostel_block)
+                    room_no=room_no, hostel_block=hostel_block)
         db.session.add(user)
         db.session.commit()
         flash('Registration successful!', 'success')
-        return redirect(url_for('login'))
+        
+        return redirect(url_for('listing'))
     return render_template('register.html')
 
 @app.route('/logout')
@@ -153,7 +153,7 @@ def create_shop():
         
         db.session.commit()
         flash('Shop created successfully!', 'success')
-        return redirect(url_for('index'))
+        return redirect(url_for('admin'))
     return render_template('create_shop.html')
 
 @app.route('/shop/<int:shop_id>')
@@ -181,23 +181,19 @@ def place_order(item_id):
 @app.route('/manage_orders')
 @login_required
 def manage_orders():
-    if current_user.is_shop:
-        shop = Shop.query.filter_by(user_id=current_user.id).first()
-        orders = Order.query.filter_by(shop_id=shop.id).all() if shop else []
-    else:
-        # Show all pending orders and orders related to the current user
-        orders = Order.query.filter(
-            (Order.status == 'pending') |
-            (Order.user_id == current_user.id) |
-            (Order.delivery_user_id == current_user.id)
-        ).all()
+    # Show all pending orders and orders related to the current user
+    orders = Order.query.filter(
+        (Order.status == 'pending') |
+        (Order.user_id == current_user.id) |
+        (Order.delivery_user_id == current_user.id)
+    ).all()
     return render_template('manage_orders.html', orders=orders)
 
 @app.route('/accept_delivery/<int:order_id>', methods=['POST'])
 @login_required
 def accept_delivery(order_id):
     order = Order.query.get_or_404(order_id)
-    if current_user.is_shop or order.user_id == current_user.id:
+    if order.user_id == current_user.id:
         flash('You are not allowed to accept this delivery.', 'error')
     elif order.status != 'pending' or order.delivery_user_id is not None:
         flash('This order is no longer available for delivery.', 'error')
@@ -379,9 +375,9 @@ def add_sample_data():
     db.session.commit()
 
     # Create sample orders
-    order1 = Order(user_id=user1.id, shop_id=shops[0].id, item_id=items[0].id, status="pending", 
+    order1 = Order(user_id=user1.id, item_id=items[0].id, status="pending", 
                    delivery_address=f"{user1.room_no}, {user1.hostel_block}")
-    order2 = Order(user_id=user2.id, shop_id=shops[1].id, item_id=items[3].id, status="pending", 
+    order2 = Order(user_id=user2.id, item_id=items[3].id, status="pending", 
                    delivery_address=f"{user2.room_no}, {user2.hostel_block}")
 
     db.session.add_all([order1, order2])

@@ -3,56 +3,51 @@
 {% block title %}Manage Orders{% endblock %}
 
 {% block content %}
-
-    {% if current_user.is_shop %}
-       
-    {% else %}
-        <!-- Delivery user view -->
-        {% set current_delivery = orders|selectattr('delivery_user_id', 'equalto', current_user.id)|selectattr('status', 'equalto', 'in_progress')|first %}
-        
-        {% if current_delivery %}
-            <div class="max-w-md mx-auto bg-white rounded-lg shadow-md overflow-hidden">
-                <div class="p-4">
-                    <div class="flex flex-cols justify-center text-3xl font-extrabold text-[#3457D5] mb-4">Delivering an order</div>
-                    <div class="flex flex-cols justify-center items-center mt-2 mb-6">
-                        <div class="bg-[#FCDC4D] px-5 rounded-full flex flex-cols justify-center items-center py-2">
-                            Gives one point &nbsp; <i class="fas fa-star"></i>
-                        </div>
+    <!-- Delivery user view -->
+    {% set current_delivery = orders|selectattr('delivery_user_id', 'equalto', current_user.id)|selectattr('status', 'equalto', 'in_progress')|first %}
+    
+    {% if current_delivery %}
+        <div class="max-w-md mx-auto bg-white rounded-lg shadow-md overflow-hidden">
+            <div class="p-4">
+                <div class="flex flex-cols justify-center text-3xl font-extrabold text-[#3457D5] mb-4">Delivering an order</div>
+                <div class="flex flex-cols justify-center items-center mt-2 mb-6">
+                    <div class="bg-[#FCDC4D] px-5 rounded-full flex flex-cols justify-center items-center py-2">
+                        Gives one point &nbsp; <i class="fas fa-star"></i>
                     </div>
-                    <div class="mb-6">
-                        <h2 class="text-xl text-black">Heading towards</h2>
-                        <p class="text-2xl font-bold text-black">{{ current_delivery.delivery_address }}</p>
-                    </div>
-                    <div class="mb-6">
-                        <h2 class="text-xl text-black">Order Contents</h2>
-                        <p class="text-2xl font-bold text-black">{{ current_delivery.item.name }}</p>
-                    </div>
-                    <form action="{{ url_for('complete_delivery', order_id=current_delivery.id) }}" method="post">
-                        <button type="submit" class="w-full bg-[#FCDC4D] hover:opacity-90 text-2xl text-[#3457D5] font-bold py-2 px-5 rounded-full focus:outline-none focus:shadow-outline">
-                            Order Completed :)
-                        </button>
-                    </form>
                 </div>
+                <div class="mb-6">
+                    <h2 class="text-xl text-black">Heading towards</h2>
+                    <p class="text-2xl font-bold text-black">{{ current_delivery.delivery_address }}</p>
+                </div>
+                <div class="mb-6">
+                    <h2 class="text-xl text-black">Order Contents</h2>
+                    <p class="text-2xl font-bold text-black">{{ current_delivery.item.name }}</p>
+                </div>
+                <form action="{{ url_for('complete_delivery', order_id=current_delivery.id) }}" method="post">
+                    <button type="submit" class="w-full bg-[#FCDC4D] hover:opacity-90 text-2xl text-[#3457D5] font-bold py-2 px-5 rounded-full focus:outline-none focus:shadow-outline">
+                        Order Completed :)
+                    </button>
+                </form>
             </div>
-        {% else %}
-            <h2 class="text-xl font-bold mb-4 text-center">Available Orders</h2>
-            {% for order in orders %}
-                {% if order.status == 'pending' and not order.delivery_user_id and order.user_id != current_user.id %}
-                    <div class="max-w-md mx-auto bg-white rounded-lg shadow-md overflow-hidden mb-4">
-                        <div class="p-4">
-                            <h3 class="text-lg font-semibold mb-2">Order #{{ order.id }}</h3>
-                            <p class="mb-2"><strong>Item:</strong> {{ order.item.name }}</p>
-                            <p class="mb-2"><strong>Shop:</strong> {{ order.item.shop.name }}</p>
-                            <p class="mb-2"><strong>Delivery Address:</strong> {{ order.delivery_address }}</p>
-                            <form action="{{ url_for('accept_delivery', order_id=order.id) }}" method="post">
-                                <button type="submit" class="w-full bg-[#FCDC4D] hover:opacity-90 text-black font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline">
-                                    Accept Delivery
-                                </button>
-                            </form>
-                        </div>
+        </div>
+    {% else %}
+        <h2 class="text-xl font-bold mb-4 text-center">Available Orders</h2>
+        {% for order in orders %}
+            {% if order.status == 'pending' and not order.delivery_user_id and order.user_id != current_user.id %}
+                <div class="max-w-md mx-auto bg-white rounded-lg shadow-md overflow-hidden mb-4">
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold mb-2">Order #{{ order.id }}</h3>
+                        <p class="mb-2"><strong>Item:</strong> {{ order.item.name }}</p>
+                        <p class="mb-2"><strong>Shop:</strong> {{ order.item.shop.name }}</p>
+                        <p class="mb-2"><strong>Delivery Address:</strong> {{ order.delivery_address }}</p>
+                        <form action="{{ url_for('accept_delivery', order_id=order.id) }}" method="post">
+                            <button type="submit" class="w-full bg-[#FCDC4D] hover:opacity-90 text-black font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline">
+                                Accept Delivery
+                            </button>
+                        </form>
                     </div>
-                {% endif %}
-            {% endfor %}
-        {% endif %}
+                </div>
+            {% endif %}
+        {% endfor %}
     {% endif %}
 {% endblock %}

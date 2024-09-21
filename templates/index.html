@@ -22,6 +22,11 @@
         <a href="javascript:history.back()" class="text-[#3457D5]  px-4 py-2 rounded-full hover:bg-opacity-90">
             <i class="fas fa-arrow-left"></i>
         </a>
+
+        <a href="{{ url_for('profile') }}" class="text-[#3457D5] rounded-full hover:bg-opacity-90">
+            <i class="fas fa-user-circle fa-3x"></i>
+        </a>
+
         <div class="flex items-center gap-2 relative">
             <a href="{{ url_for('cart') }}" class="bg-[#FCDC4D] text-[#3457D5] px-4 py-2 rounded-full hover:bg-opacity-90">
                 <i class="fas fa-shopping-cart"></i>
@@ -31,8 +36,8 @@
     </div>
     <div class="flex justify-center mb-6 mt-4">
         <div class="flex justify-center mt-4 bg-[#D6DDF7] rounded-full px-1">
-            <button id="orderNowBtn" class="bg-[#FCDC4D] text-black px-6 py-2 rounded-full flex-grow transition-all duration-300 focus:outline-none -mx-2">Order Now</button>
-            <button id="deliverNowBtn" class="bg-transparent text-black px-6 py-2 rounded-full flex-grow transition-all duration-300 focus:outline-none -mx-2">Deliver Now</button>
+            <button id="orderNowBtn" class="bg-[#FCDC4D] font-bold px-6 py-2 rounded-full flex-grow transition-all duration-300 focus:outline-none -mx-2">Order Now</button>
+            <button id="deliverNowBtn" class="bg-transparent font-bold px-6 py-2 rounded-full flex-grow transition-all duration-300 focus:outline-none -mx-2">Deliver Now</button>
         </div>
     </div>
 
@@ -64,8 +69,8 @@
                 <div class="flex-col justify-between mt-5">
                     <form action="{{ url_for('accept_delivery', order_id=order.id) }}" method="post">
                         <button type="submit" class="bg-[#3457D5] text-white px-4 py-2 rounded-lg">I'll do it :)</button>
+                        <button id='deliveryRejectBtn' class="bg-[#FCDC4D] text-black px-4 py-2 rounded-lg">Can't do it :(</button>
                     </form>
-                    <button class="bg-[#FCDC4D] text-black px-4 py-2 rounded-lg">Can't do it :(</button>
                 </div>
             </div>
             {% endfor %}
@@ -78,7 +83,7 @@
         const orderNowSection = document.getElementById('orderNowSection');
         const deliverNowSection = document.getElementById('deliverNowSection');
 
-        function toggleSections(showOrderNow) {
+        function toggleOrderSections(showOrderNow) {
             if (showOrderNow) {
                 orderNowSection.classList.remove('hidden');
                 deliverNowSection.classList.add('hidden');
@@ -87,17 +92,16 @@
                 deliverNowBtn.classList.remove('bg-[#FCDC4D]');
                 deliverNowBtn.classList.add('bg-[#D6DDF7]');
             } else {
-                orderNowSection.classList.add('hidden');
                 deliverNowSection.classList.remove('hidden');
-                orderNowBtn.classList.remove('bg-[#FCDC4D]');
-                orderNowBtn.classList.add('bg-[#D6DDF7]');
+                orderNowSection.classList.add('hidden');
                 deliverNowBtn.classList.add('bg-[#FCDC4D]');
                 deliverNowBtn.classList.remove('bg-[#D6DDF7]');
+                orderNowBtn.classList.remove('bg-[#FCDC4D]');
+                orderNowBtn.classList.add('bg-[#D6DDF7]');
             }
         }
-
-        orderNowBtn.addEventListener('click', () => toggleSections(true));
-        deliverNowBtn.addEventListener('click', () => toggleSections(false));
+        orderNowBtn.addEventListener('click', () => toggleOrderSections(true));
+        deliverNowBtn.addEventListener('click', () => toggleOrderSections(false));
 
         toggleSections(true);
     </script>
