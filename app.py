@@ -394,7 +394,7 @@ def process_payment():
     qr_code_base64 = base64.b64encode(buffered.getvalue()).decode()
 
     return render_template(
-        "paymentpage.html", qr_code=qr_code_base64, total=total, upi_id=upi_id
+        "paymentpage.html", cart_items=cart_items, qr_code=qr_code_base64, total=total, upi_id=upi_id
     )
 
 
@@ -403,6 +403,7 @@ def process_payment():
 def order_confirmation():
     return render_template(
         "order_confirmation.html",
+
         transaction_id=random.randint(1000000000, 999999999999),
     )
 

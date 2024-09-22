@@ -51,7 +51,7 @@
     </div>
 
     <!-- Card Details Form -->
-    <form class="space-y-6">
+    <form class="space-y-6" action="{{ url_for('order_confirmation'), cart_items }}">
       <!-- Card Number -->
       <input 
         type="text" 
@@ -84,17 +84,21 @@
 
       <!-- Complete Order Button -->
       <div class="flex justify-center mt-8">
-        <a href="{{url_for("order_confirmation/" + random.randint(1000000000, 9999999999))}}">
-          <button 
-            type="submit"
-            id="submitBtn" 
-            class="w-full p-3 bg-[#FCDC4D] text-lg font-bold rounded-[25px]"
-            style="color: #3457D5;">
-            Complete Order
-          </button>
-        </a>
+        <button 
+          type="submit"
+          id="submitBtn" 
+          class="w-full p-3 bg-[#FCDC4D] text-lg font-bold rounded-[25px]"
+          style="color: #3457D5;">
+          Complete Order
+        </button>
       </div>
     </form>
+
+    <script>
+      submitBtn = document.getElementById("submitBtn")
+      submitBtn.add()
+    </script>
+
   </div>
 
 </body>
