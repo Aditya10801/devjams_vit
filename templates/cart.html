@@ -53,13 +53,15 @@
             <div class="text-xl font-bold text-gray-800">Total: Rs.{{ total }}</div>
         </div>
 
-        {% comment %} <form id="paymentForm" class="max-w-sm w-full mx-auto mt-6" action="{{ url_for('process_payment') }}" method="post">
+        <!--
+        <form id="paymentForm" class="max-w-sm w-full mx-auto mt-6" action="{{ url_for('process_payment') }}" method="post">
             <div class="mb-4">
                 <label for="upi_id" class="block text-gray-700 text-sm font-bold mb-2">UPI ID:</label>
                 <input type="text" id="upi_id" name="upi_id" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
             </div>
             <input type="hidden" name="amount" value="{{ total }}">
-        </form> {% endcomment %}
+        </form>
+        -->
 
         <div class="fixed bottom-0 w-full p-4 bg-[#FCDC4D] px-2 z-40">
             <div class="text-center">
