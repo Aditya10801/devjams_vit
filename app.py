@@ -361,7 +361,7 @@ def add_to_cart(item_id):
 def cart():
     cart_items = CartItem.query.filter_by(user_id=current_user.id).all()
     total = sum(item.item.price * item.quantity for item in cart_items)
-    shop = Shop.query.get(cart_items[0].shop_id) if cart_items else None
+    shop = db.session.get(Shop, cart_items[0].shop_id) if cart_items else None
     return render_template("cart.html", cart_items=cart_items, total=total, shop=shop)
 
 
