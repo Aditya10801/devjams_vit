@@ -65,7 +65,15 @@
 
         <div class="fixed bottom-0 w-full p-4 bg-[#FCDC4D] px-2 z-40">
             <div class="text-center">
-                <button onclick="document.getElementById('paymentForm').submit();" class="bg-[#FCDC4D] hover:opacity-90 text-2xl text-[#3457D5] font-bold py-2 px-5 rounded-full focus:outline-none focus:shadow-outline">
+                <!-- <button 
+                onclick="document.getElementById('paymentForm').submit();"
+                class="bg-[#FCDC4D] hover:opacity-90 text-2xl text-[#3457D5] font-bold py-2 px-5 rounded-full focus:outline-none focus:shadow-outline">
+                    Pay with UPI <i class="fas fa-arrow-right"></i>
+                </button> -->
+
+                <button 
+                onclick="{{ url_for("process_payment") }}"
+                class="bg-[#FCDC4D] hover:opacity-90 text-2xl text-[#3457D5] font-bold py-2 px-5 rounded-full focus:outline-none focus:shadow-outline">
                     Pay with UPI <i class="fas fa-arrow-right"></i>
                 </button>
             </div>
