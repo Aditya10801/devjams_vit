@@ -22,8 +22,8 @@ Clone the repository:
 
 ### Install the Required Packages 
 
-- ``` pip install qrcode'```
-- ``` pip install flask flask_sqlalchemy flask_login'```
+- ``` pip install qrcode```
+- ``` pip install flask flask_sqlalchemy flask_login```
 
 ### Running the Application_
 Start the Flask application:
