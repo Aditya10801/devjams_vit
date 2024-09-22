@@ -29,9 +29,10 @@ Clone the repository:
 Start the Flask application:
 
 ```python3 app.py```
-### Open your web browser and navigate to http://127.0.0.1:5000.
+### Open your web browser and navigate to http://127.0.0.1:3000.
 
-### **Important: For the best experience, open the app in responsive mode or on a mobile device.**
+- ### **Important: **
+- ### For the best experience, open the app in responsive mode or on a mobile device.
 
 Usage
 
