@@ -31,7 +31,7 @@ Start the Flask application:
 ```python3 app.py```
 ### Open your web browser and navigate to http://127.0.0.1:3000.
 
-- ### **Important: **
+- ### Important: 
 - ### For the best experience, open the app in responsive mode or on a mobile device.
 
 Usage
