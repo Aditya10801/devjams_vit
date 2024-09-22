@@ -97,13 +97,20 @@ def index():
 
 
 @app.route("/listing")
+# def listing():
+#     shops = Shop.query.all()
+#     pending_orders = Order.query.filter_by(status="pending").all()
+#     return render_template(
+#         "index.html", shops=shops, orders=pending_orders, is_admin=current_user.is_admin
+#     )
 def listing():
     shops = Shop.query.all()
     pending_orders = Order.query.filter_by(status="pending").all()
+    is_admin = current_user.is_admin if current_user.is_authenticated else False
+    print(is_admin, current_user.is_authenticated, help(current_user))
     return render_template(
-        "index.html", shops=shops, orders=pending_orders, is_admin=current_user.is_admin
+        "index.html", shops=shops, orders=pending_orders, is_admin=is_admin
     )
-
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -111,13 +118,17 @@ def login():
         username = request.form["username"]
         password = request.form["password"]
         user = User.query.filter_by(username=username).first()
-        if user and check_password_hash(user.password_hash, password):
-            login_user(user)
-            return redirect(url_for("listing"))
-
+        
         if user and check_password_hash(user.password_hash, password) and user.is_admin:
             return redirect(url_for("admin"))
-
+        
+        elif user and check_password_hash(user.password_hash, password):
+            login_user(user)
+            return redirect(url_for("listing"))
+        
+        else:
+            print("Invalid username or password")
+            return render_template("login.html", invalid=True)
     return render_template("login.html")
 
 
